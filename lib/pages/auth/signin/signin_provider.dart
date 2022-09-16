@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 
-class SignInProvider with ChangeNotifier {
-  int _counter = 0;
-  void increment() {
-    _counter++;
-    notifyListeners();
+abstract class SignInProviderRepository {
+  void onInit();
+  void onDispose();
+}
+
+class SignInProvider extends SignInProviderRepository with ChangeNotifier {
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void onDispose() {
+    userNameController.dispose();
+    passwordController.dispose();
   }
 
-  void decrement() {
-    _counter--;
-    notifyListeners();
+  @override
+  void onInit() {
+    // TODO: implement onInit
   }
-
-  int get counter => _counter;
 }
