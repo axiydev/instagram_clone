@@ -61,8 +61,8 @@ class AppTheme {
       backgroundColor: Colors.white,
       focusColor: Colors.black,
       dividerColor: Colors.grey,
-      bottomNavigationBarTheme:
-          const BottomNavigationBarThemeData(backgroundColor: Colors.white),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          selectedItemColor: Colors.black, backgroundColor: Colors.white),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: TextStyle(
             fontSize: 15.sp,
@@ -84,8 +84,8 @@ class AppTheme {
       backgroundColor: Colors.black,
       dividerColor: Colors.white,
       focusColor: Colors.white,
-      bottomNavigationBarTheme:
-          const BottomNavigationBarThemeData(backgroundColor: Colors.black),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          selectedItemColor: Colors.white, backgroundColor: Colors.black),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: TextStyle(
             fontSize: 15.sp,

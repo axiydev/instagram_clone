@@ -1,10 +1,14 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
 
 class MainProvider with ChangeNotifier {
+  final CupertinoTabController? cupertinoTabController =
+      CupertinoTabController();
+  int? _currentIndex = 0;
+
   String? imageUrl;
   void loadUserAvatar() async {
     try {} catch (e) {}
@@ -21,4 +25,11 @@ class MainProvider with ChangeNotifier {
       log(e.toString());
     }
   }
+
+  void changeIndex(int? index) {
+    _currentIndex = index;
+    notifyListeners();
+  }
+
+  int? get currentIndex => _currentIndex;
 }

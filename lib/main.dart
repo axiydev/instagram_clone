@@ -40,7 +40,9 @@ class MyApp extends StatelessWidget {
                 create: (_) => SignUpProvider(),
                 child: const SignUpPage()),
             AppRoutes.mainPage: (_) => ChangeNotifierProvider(
-                create: (_) => MainProvider(), child: const MainPage())
+                lazy: true,
+                create: (_) => MainProvider(),
+                child: const MainPage())
           },
           title: 'Flutter Demo',
           themeMode: value,
@@ -59,11 +61,13 @@ class MyApp extends StatelessWidget {
                 if (snapshot.hasData) {
                   return ChangeNotifierProvider(
                     create: (_) => MainProvider(),
+                    lazy: false,
                     child: const MainPage(),
                   );
                 } else {
                   return ChangeNotifierProvider(
                     create: (_) => SignInProvider(),
+                    lazy: false,
                     child: const SignInPage(),
                   );
                 }

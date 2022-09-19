@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/pages/main/main_provider.dart';
-import 'package:instagram_clone/utils/app_constants.dart';
+import 'package:instagram_clone/utils/app_utils_export.dart';
 import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
@@ -13,45 +13,114 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final List _pageList = [
+    Center(
+      child: TextButton(
+          onPressed: () {
+            AppUtils.themeChanger();
+          },
+          child: const Text('change')),
+    ),
+    const Center(
+      child: Text('search'),
+    ),
+    const Center(
+      child: Text('add'),
+    ),
+    const Center(
+      child: Text('heart'),
+    ),
+    const Center(
+      child: Text('user'),
+    )
+  ];
   @override
   Widget build(BuildContext context) {
     return Consumer<MainProvider>(builder: (context, mainValue, _) {
       return CupertinoTabScaffold(
-          tabBar: CupertinoTabBar(
-            backgroundColor:
-                Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-            items: [
-              const BottomNavigationBarItem(icon: Icon(CupertinoIcons.home)),
-              const BottomNavigationBarItem(
-                  backgroundColor: Colors.black,
-                  icon: Icon(CupertinoIcons.search)),
-              const BottomNavigationBarItem(icon: Icon(Icons.add_box_outlined)),
-              const BottomNavigationBarItem(
-                  backgroundColor: Colors.black,
-                  icon: Icon(CupertinoIcons.heart)),
-              BottomNavigationBarItem(
-                icon: SizedBox(
-                  width: 23.w,
-                  height: 23.w,
-                  child: const CircleAvatar(
-                    backgroundImage: AssetImage(AppConstants.avatar),
+        controller: mainValue.cupertinoTabController,
+        backgroundColor: Theme.of(context).backgroundColor,
+        tabBar: CupertinoTabBar(
+          onTap: (newIndex) => mainValue.changeIndex(newIndex),
+          backgroundColor:
+              Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(
+                CupertinoIcons.home,
+              ),
+              activeIcon: Icon(
+                CupertinoIcons.home,
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .selectedItemColor,
+              ),
+            ),
+            BottomNavigationBarItem(
+                activeIcon: Icon(
+                  CupertinoIcons.search,
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .selectedItemColor,
+                ),
+                icon: const Icon(CupertinoIcons.search)),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.add_box_outlined),
+              activeIcon: Icon(
+                Icons.add_box_outlined,
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .selectedItemColor,
+              ),
+            ),
+            BottomNavigationBarItem(
+                activeIcon: Icon(
+                  CupertinoIcons.heart_fill,
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .selectedItemColor,
+                ),
+                icon: const Icon(CupertinoIcons.heart)),
+            BottomNavigationBarItem(
+              icon: Container(
+                padding: EdgeInsets.all(2.w),
+                height: 29.w,
+                width: 29.w,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(width: 1.w, color: Colors.transparent)),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(AppConstants.avatar)),
                   ),
                 ),
-                activeIcon: Container(
-                  padding: EdgeInsets.all(1.w),
-                  height: 27.w,
-                  width: 27.w,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: const DecorationImage(
-                          image: NetworkImage(
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL_JlCFnIGX5omgjEjgV9F3sBRq14eTERK9w&usqp=CAU")),
-                      border: Border.all(width: 1.w, color: Colors.black)),
+              ),
+              activeIcon: Container(
+                padding: EdgeInsets.all(2.w),
+                height: 29.w,
+                width: 29.w,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                        width: 1.w, color: Theme.of(context).focusColor)),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(AppConstants.avatar)),
+                  ),
                 ),
               ),
-            ],
-          ),
-          tabBuilder: (context, index) => Container());
+            ),
+          ],
+        ),
+        tabBuilder: (context, index) => Material(
+            color: Theme.of(context).backgroundColor, child: _pageList[index]),
+      );
     });
   }
 }

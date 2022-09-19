@@ -22,7 +22,7 @@ class AppUtils {
     );
   }
 
-  static void get themeChanger {
+  static void themeChanger() {
     themeMode.value =
         themeMode.value == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
   }

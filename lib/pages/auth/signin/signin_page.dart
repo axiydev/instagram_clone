@@ -146,7 +146,9 @@ class _SignInPageState extends State<SignInPage> {
         )),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => AppUtils.themeChanger,
+        onPressed: () {
+          AppUtils.themeChanger();
+        },
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
