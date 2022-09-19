@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/pages/auth/signin/signin_provider.dart';
-import 'package:instagram_clone/utils/app_routes.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
 import 'package:provider/provider.dart';
 
@@ -14,12 +13,6 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  @override
-  void dispose() {
-    context.read<SignInProvider>().onDispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,8 +75,14 @@ class _SignInPageState extends State<SignInPage> {
                 height: 44.h,
                 child: CupertinoButton.filled(
                     padding: const EdgeInsets.symmetric(horizontal: .0),
-                    onPressed: () {},
-                    child: const Text('Log In')),
+                    onPressed: () => signInProviderValue.signIn(
+                          context,
+                        ),
+                    child: signInProviderValue.isLoading!
+                        ? CupertinoActivityIndicator(
+                            color: Theme.of(context).backgroundColor,
+                          )
+                        : const Text('Log In')),
               ),
               SizedBox(
                 height: 38.5.h,
@@ -97,7 +96,7 @@ class _SignInPageState extends State<SignInPage> {
                       size: 17.w,
                     ),
                     onPressed: () {},
-                    label: const Text('Log with Fasebook')),
+                    label: const Text('Log with Facebook')),
               ),
               SizedBox(
                 height: 41.h,
@@ -147,11 +146,7 @@ class _SignInPageState extends State<SignInPage> {
         )),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          AppUtils.themeMode.value = AppUtils.themeMode.value == ThemeMode.light
-              ? ThemeMode.dark
-              : ThemeMode.light;
-        },
+        onPressed: () => AppUtils.themeChanger,
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -171,6 +166,7 @@ class _SignInPageState extends State<SignInPage> {
       bool? obscure = false}) {
     return CupertinoTextField(
       obscureText: obscure!,
+      clearButtonMode: OverlayVisibilityMode.editing,
       style: TextStyle(color: Theme.of(context).focusColor),
       controller: controller,
       decoration: BoxDecoration(
