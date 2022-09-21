@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppUtils {
-  static ValueNotifier<ThemeMode> themeMode = ValueNotifier(ThemeMode.light);
+  static ValueNotifier<ThemeMode> themeMode = ValueNotifier(ThemeMode.dark);
   static void showDialog(BuildContext context, {required String msg}) {
     showCupertinoDialog(
       context: context,
@@ -22,8 +22,12 @@ class AppUtils {
     );
   }
 
+//? theme changer
   static void themeChanger() {
-    themeMode.value =
-        themeMode.value == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    if (themeMode.value == ThemeMode.dark) {
+      themeMode.value = ThemeMode.light;
+    } else if (themeMode.value == ThemeMode.light) {
+      themeMode.value = ThemeMode.dark;
+    }
   }
 }

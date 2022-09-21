@@ -16,7 +16,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       resizeToAvoidBottomInset: false, //? pixel errorda
       body: Consumer<SignUpProvider>(
         builder: (context, signUpProviderValue, _) => SafeArea(

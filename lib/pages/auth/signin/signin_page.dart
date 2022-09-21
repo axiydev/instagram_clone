@@ -16,12 +16,12 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       resizeToAvoidBottomInset: false, //? pixel errorda
       body: Consumer<SignInProvider>(
         builder: (context, signInProviderValue, _) => SafeArea(
             child: SizedBox(
-          width: MediaQuery.of(context).size.width,
+          width: 375.w,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

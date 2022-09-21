@@ -8,11 +8,21 @@ class AppTheme {
           fontWeight: FontWeight.w500,
           fontFamily: 'SfPro',
           color: const Color(0xFF3797EF)),
+      displaySmall: TextStyle(
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'SfPro',
+          color: Colors.black),
       titleMedium: TextStyle(
           fontSize: 15.sp,
           fontWeight: FontWeight.w500,
           fontFamily: 'SfPro',
           color: Colors.grey),
+      displayMedium: TextStyle(
+          fontSize: 20.sp,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'SfPro',
+          color: Colors.black),
       bodySmall: TextStyle(
           fontSize: 12.sp,
           fontWeight: FontWeight.w600,
@@ -29,11 +39,21 @@ class AppTheme {
           fontWeight: FontWeight.w600,
           fontFamily: 'Billabong'));
   static TextTheme? _darkTextTheme() => TextTheme(
+        displaySmall: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'SfPro',
+            color: Colors.white),
         labelSmall: TextStyle(
             fontSize: 12.sp,
             fontWeight: FontWeight.w500,
             fontFamily: 'SfPro',
             color: const Color(0xFF3797EF)),
+        displayMedium: TextStyle(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'SfPro',
+            color: Colors.white),
         titleMedium: TextStyle(
             fontSize: 15.sp,
             fontWeight: FontWeight.w500,
@@ -56,8 +76,13 @@ class AppTheme {
             fontFamily: 'Billabong'),
       );
 //? Light Theme
-  static ThemeData lightTheme() => ThemeData(
+  static ThemeData get lightTheme => ThemeData(
       textTheme: _lightTextTheme(),
+      dialogTheme: const DialogTheme(backgroundColor: Colors.white),
+      brightness: Brightness.dark,
+      primaryColor: Colors.black,
+      dialogBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: Colors.white,
       backgroundColor: Colors.white,
       focusColor: Colors.black,
       dividerColor: Colors.grey,
@@ -79,10 +104,15 @@ class AppTheme {
                   color: const Color(0xFF3797EF)),
               padding: const EdgeInsets.symmetric(horizontal: 0))));
 
-//! Dark Theme
-  static ThemeData darkTheme() => ThemeData(
+//? Dark Theme
+  static ThemeData get darkTheme => ThemeData(
       backgroundColor: Colors.black,
+      scaffoldBackgroundColor: Colors.black,
+      dialogBackgroundColor: Colors.black,
+      dialogTheme: const DialogTheme(backgroundColor: Colors.black),
+      primaryColor: Colors.white,
       dividerColor: Colors.white,
+      brightness: Brightness.light,
       focusColor: Colors.white,
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedItemColor: Colors.white, backgroundColor: Colors.black),

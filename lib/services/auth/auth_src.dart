@@ -78,4 +78,18 @@ class AuthSrc {
     }
     return null;
   }
+
+  static Future<UserModel?> get getCurrentUser async {
+    try {
+      final uid = _firebaseAuth.currentUser!.uid;
+      final DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
+          await _firebaseFirestore.collection('users').doc(uid).get();
+      final UserModel userModel =
+          UserModel.fromDocumentSnapshot(documentSnapshot);
+      return userModel;
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
 }

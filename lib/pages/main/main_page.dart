@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/pages/main/main_provider.dart';
+import 'package:instagram_clone/pages/main/post/create_post/create_post_page.dart';
+import 'package:instagram_clone/pages/main/post/posts/posts_page.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
 import 'package:provider/provider.dart';
 
@@ -14,19 +17,11 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final List _pageList = [
-    Center(
-      child: TextButton(
-          onPressed: () {
-            AppUtils.themeChanger();
-          },
-          child: const Text('change')),
-    ),
+    PostsPage.show,
     const Center(
       child: Text('search'),
     ),
-    const Center(
-      child: Text('add'),
-    ),
+    CreatePost.show,
     const Center(
       child: Text('heart'),
     ),
@@ -34,12 +29,23 @@ class _MainPageState extends State<MainPage> {
       child: Text('user'),
     )
   ];
+
+  @override
+  void didChangeDependencies() {
+    context.read<MainProvider>().getUserAvatar();
+    if (kDebugMode) {
+      print("did Change Dep");
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MainProvider>(builder: (context, mainValue, _) {
       return CupertinoTabScaffold(
         controller: mainValue.cupertinoTabController,
-        backgroundColor: Theme.of(context).backgroundColor,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         tabBar: CupertinoTabBar(
           onTap: (newIndex) => mainValue.changeIndex(newIndex),
           backgroundColor:
@@ -89,14 +95,22 @@ class _MainPageState extends State<MainPage> {
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(width: 1.w, color: Colors.transparent)),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage(AppConstants.avatar)),
-                  ),
-                ),
+                child: mainValue.imageUrl == null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset(AppConstants.avatar),
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              mainValue.imageUrl!,
+                            ),
+                          ),
+                        ),
+                      ),
               ),
               activeIcon: Container(
                 padding: EdgeInsets.all(2.w),
@@ -106,14 +120,22 @@ class _MainPageState extends State<MainPage> {
                     shape: BoxShape.circle,
                     border: Border.all(
                         width: 1.w, color: Theme.of(context).focusColor)),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage(AppConstants.avatar)),
-                  ),
-                ),
+                child: mainValue.imageUrl == null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset(AppConstants.avatar),
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              mainValue.imageUrl!,
+                            ),
+                          ),
+                        ),
+                      ),
               ),
             ),
           ],
