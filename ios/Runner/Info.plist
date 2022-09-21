@@ -53,5 +53,9 @@
     <string>$(PRODUCT_NAME)photos description.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
     <string>$(PRODUCT_NAME) photos add description.</string>
+	<key>NSAppTransportSecurity</key>
+    <dict>
+    <key>NSAllowsArbitraryLoads</key><true/>
+</dict>
 </dict>
 </plist>
