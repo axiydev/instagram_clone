@@ -8,6 +8,8 @@ import 'package:instagram_clone/models/post_model.dart';
 import 'package:instagram_clone/services/fire/fire_src.dart';
 import 'package:instagram_clone/services/image/image_pick_src.dart';
 
+typedef LogoutFunction = void Function(int? index);
+
 class CreatePostProvider with ChangeNotifier {
   File? imageFile;
   final PickImageSrc _pickImageSrc = PickImageSrc();
@@ -19,7 +21,9 @@ class CreatePostProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void showPostCreationType(BuildContext context) {
+  void showPostCreationType(
+    BuildContext context,
+  ) {
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -57,7 +61,7 @@ class CreatePostProvider with ChangeNotifier {
             ));
   }
 
-  void publishingPost() async {
+  void publishingPost({required LogoutFunction? func}) async {
     try {
       if (imageFile == null) return;
       PostModel newPost = PostModel(
@@ -68,6 +72,9 @@ class CreatePostProvider with ChangeNotifier {
 
       if (isPublished!) {
         log('Publish boldi');
+        imageFile = null;
+        descriptionController!.clear();
+        func!(0);
       }
     } catch (e) {
       log(e.toString());

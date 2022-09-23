@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:instagram_clone/models/post_model.dart';
+import 'package:instagram_clone/pages/main/main_provider.dart';
 import 'package:instagram_clone/pages/main/post/posts/posts_provider.dart';
 import 'package:instagram_clone/pages/main/post/posts/widget/post_item.dart';
+import 'package:instagram_clone/services/fire/fire_src.dart';
 import 'package:provider/provider.dart';
 
 class PostsPage extends StatefulWidget {
@@ -20,6 +22,11 @@ class PostsPage extends StatefulWidget {
 }
 
 class _PostsPageState extends State<PostsPage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,31 +55,53 @@ class _PostsPageState extends State<PostsPage> {
                   ),
                 ),
               ),
+              Consumer2<PostsProvider, MainProvider>(
+                builder: (context, value, valueMain, child) => IconButton(
+                    onPressed: () {
+                      valueMain.logout(context);
+                    },
+                    icon: Icon(
+                      Icons.logout,
+                      color: Theme.of(context)
+                          .bottomNavigationBarTheme
+                          .selectedItemColor,
+                    )),
+              ),
               SizedBox(
                 width: 15.w,
               ),
             ],
           ),
         ),
-        body: FirestoreListView(
-          shrinkWrap: true,
-          query: FirebaseFirestore.instance
-              .collection('posts')
-              .orderBy('datePublished', descending: true),
-          itemBuilder: (context, doc) {
-            if (doc.data().isEmpty) {
-              return const Center(
-                child: CupertinoActivityIndicator(),
+        body: Consumer<PostsProvider>(
+          builder: (context, valuePosts, child) => FirestoreListView(
+            shrinkWrap: true,
+            query: FirebaseFirestore.instance
+                .collection('posts')
+                .orderBy('datePublished', descending: true),
+            itemBuilder: (context, doc) {
+              if (doc.data().isEmpty) {
+                return const Center(
+                  child: CupertinoActivityIndicator(),
+                );
+              }
+              if (!doc.exists) {
+                return const Center(
+                  child: CupertinoActivityIndicator(),
+                );
+              }
+              PostModel? post = PostModel.fromDocumentSnapshot(doc);
+
+              // valuePosts.getCommentLength(postId: post.postId);
+              return PostItem(
+                post: post,
+                fullCommentLength: post.comments!,
+                addLike: () => valuePosts.addLike(post: post),
+                removeLike: () => valuePosts.removeLike(post: post),
+                liked: FireSrc.isLiked(myPost: post),
               );
-            }
-            if (!doc.exists) {
-              return const Center(
-                child: CupertinoActivityIndicator(),
-              );
-            }
-            PostModel? post = PostModel.fromDocumentSnapshot(doc);
-            return PostItem(post: post);
-          },
+            },
+          ),
         ));
   }
 }

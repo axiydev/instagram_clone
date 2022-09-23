@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/pages/auth/auth_export.dart';
 import 'package:instagram_clone/pages/main/main_page.dart';
 import 'package:instagram_clone/pages/main/main_provider.dart';
+import 'package:instagram_clone/pages/main/post/comment/comment_page.dart';
 import 'package:instagram_clone/pages/main/post/create_post/create_post_page.dart';
 import 'package:instagram_clone/pages/main/post/create_post/create_post_provider.dart';
 import 'package:instagram_clone/pages/main/post/posts/posts_page.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
                 create: (_) => SignUpProvider(),
                 child: const SignUpPage()),
             AppRoutes.postsPage: (_) => PostsPage.show,
+            AppRoutes.comment: (_) => CommentPage.show,
             AppRoutes.mainPage: (_) => MultiProvider(
                   providers: [
                     ChangeNotifierProvider(

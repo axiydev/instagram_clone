@@ -25,7 +25,7 @@ mixin _$PostModel {
   String? get userAvatar => throw _privateConstructorUsedError;
   String? get datePublished => throw _privateConstructorUsedError;
   List<dynamic>? get likes => throw _privateConstructorUsedError;
-  List<dynamic>? get comments => throw _privateConstructorUsedError;
+  int? get comments => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
   String? get postId => throw _privateConstructorUsedError;
   String? get userId => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $PostModelCopyWith<$Res> {
       String? userAvatar,
       String? datePublished,
       List<dynamic>? likes,
-      List<dynamic>? comments,
+      int? comments,
       String? imageUrl,
       String? postId,
       String? userId});
@@ -96,7 +96,7 @@ class _$PostModelCopyWithImpl<$Res> implements $PostModelCopyWith<$Res> {
       comments: comments == freezed
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as int?,
       imageUrl: imageUrl == freezed
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -125,7 +125,7 @@ abstract class _$$_PostModelCopyWith<$Res> implements $PostModelCopyWith<$Res> {
       String? userAvatar,
       String? datePublished,
       List<dynamic>? likes,
-      List<dynamic>? comments,
+      int? comments,
       String? imageUrl,
       String? postId,
       String? userId});
@@ -175,9 +175,9 @@ class __$$_PostModelCopyWithImpl<$Res> extends _$PostModelCopyWithImpl<$Res>
           : likes // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
       comments: comments == freezed
-          ? _value._comments
+          ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as int?,
       imageUrl: imageUrl == freezed
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -204,12 +204,11 @@ class _$_PostModel implements _PostModel {
       this.userAvatar,
       this.datePublished,
       final List<dynamic>? likes,
-      final List<dynamic>? comments,
+      this.comments,
       this.imageUrl,
       this.postId,
       this.userId})
-      : _likes = likes,
-        _comments = comments;
+      : _likes = likes;
 
   factory _$_PostModel.fromJson(Map<String, dynamic> json) =>
       _$$_PostModelFromJson(json);
@@ -231,15 +230,8 @@ class _$_PostModel implements _PostModel {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<dynamic>? _comments;
   @override
-  List<dynamic>? get comments {
-    final value = _comments;
-    if (value == null) return null;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+  final int? comments;
   @override
   final String? imageUrl;
   @override
@@ -265,7 +257,7 @@ class _$_PostModel implements _PostModel {
             const DeepCollectionEquality()
                 .equals(other.datePublished, datePublished) &&
             const DeepCollectionEquality().equals(other._likes, _likes) &&
-            const DeepCollectionEquality().equals(other._comments, _comments) &&
+            const DeepCollectionEquality().equals(other.comments, comments) &&
             const DeepCollectionEquality().equals(other.imageUrl, imageUrl) &&
             const DeepCollectionEquality().equals(other.postId, postId) &&
             const DeepCollectionEquality().equals(other.userId, userId));
@@ -280,7 +272,7 @@ class _$_PostModel implements _PostModel {
       const DeepCollectionEquality().hash(userAvatar),
       const DeepCollectionEquality().hash(datePublished),
       const DeepCollectionEquality().hash(_likes),
-      const DeepCollectionEquality().hash(_comments),
+      const DeepCollectionEquality().hash(comments),
       const DeepCollectionEquality().hash(imageUrl),
       const DeepCollectionEquality().hash(postId),
       const DeepCollectionEquality().hash(userId));
@@ -305,7 +297,7 @@ abstract class _PostModel implements PostModel {
       final String? userAvatar,
       final String? datePublished,
       final List<dynamic>? likes,
-      final List<dynamic>? comments,
+      final int? comments,
       final String? imageUrl,
       final String? postId,
       final String? userId}) = _$_PostModel;
@@ -324,7 +316,7 @@ abstract class _PostModel implements PostModel {
   @override
   List<dynamic>? get likes;
   @override
-  List<dynamic>? get comments;
+  int? get comments;
   @override
   String? get imageUrl;
   @override

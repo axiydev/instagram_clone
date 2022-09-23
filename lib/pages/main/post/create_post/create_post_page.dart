@@ -74,8 +74,8 @@ class _CreatePostState extends State<CreatePost> {
           ],
         ),
       ),
-      body: Consumer<CreatePostProvider>(
-        builder: (context, postValue, _) => SafeArea(
+      body: Consumer2<CreatePostProvider, MainProvider>(
+        builder: (context, postValue, mainProviderValue, _) => SafeArea(
             child: SizedBox(
           width: 375.w,
           child: Column(
@@ -119,7 +119,11 @@ class _CreatePostState extends State<CreatePost> {
                 ),
               if (postValue.imageFile != null)
                 CupertinoButton(
-                    onPressed: () => postValue.publishingPost(),
+                    onPressed: () {
+                      postValue.publishingPost(
+                          func: (index) =>
+                              mainProviderValue.changeIndex(index));
+                    },
                     child: const Text('Publish post'))
             ],
           ),

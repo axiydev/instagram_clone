@@ -12,7 +12,7 @@ _$_PostModel _$$_PostModelFromJson(Map<String, dynamic> json) => _$_PostModel(
       userAvatar: json['userAvatar'] as String?,
       datePublished: json['datePublished'] as String?,
       likes: json['likes'] as List<dynamic>?,
-      comments: json['comments'] as List<dynamic>?,
+      comments: json['comments'] as int?,
       imageUrl: json['imageUrl'] as String?,
       postId: json['postId'] as String?,
       userId: json['userId'] as String?,

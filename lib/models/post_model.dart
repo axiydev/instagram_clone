@@ -12,7 +12,7 @@ class PostModel with _$PostModel {
     String? userAvatar,
     String? datePublished,
     List? likes,
-    List? comments,
+    int? comments,
     String? imageUrl,
     String? postId,
     String? userId,

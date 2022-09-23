@@ -85,6 +85,7 @@ class AppTheme {
       scaffoldBackgroundColor: Colors.white,
       backgroundColor: Colors.white,
       focusColor: Colors.black,
+      listTileTheme: const ListTileThemeData(tileColor: Colors.white),
       dividerColor: Colors.grey,
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedItemColor: Colors.black, backgroundColor: Colors.white),
@@ -114,6 +115,7 @@ class AppTheme {
       dividerColor: Colors.white,
       brightness: Brightness.light,
       focusColor: Colors.white,
+      listTileTheme: ListTileThemeData(tileColor: Colors.grey[900]),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedItemColor: Colors.white, backgroundColor: Colors.black),
       inputDecorationTheme: InputDecorationTheme(
