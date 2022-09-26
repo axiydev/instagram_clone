@@ -21,6 +21,7 @@ class CustomCardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+        elevation: .0,
         margin: EdgeInsets.zero,
         child: ListTile(
           dense: false,

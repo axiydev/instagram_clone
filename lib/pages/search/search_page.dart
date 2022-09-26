@@ -29,6 +29,7 @@ class _SearchPageState extends State<SearchPage> {
           leading: IconButton(
             onPressed: () {
               if (Navigator.canPop(context)) {
+                FocusScope.of(context).unfocus();
                 Navigator.of(context).pop();
               }
             },

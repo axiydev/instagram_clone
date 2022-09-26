@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -65,93 +66,41 @@ class _SearchViewState extends State<SearchView> {
               children: [
                 Padding(
                   padding: EdgeInsets.all(8.0.w),
-                  child: GestureDetector(
-                    onTap: () {
-                      if (kDebugMode) {
-                        Navigator.of(context).pushNamed(AppRoutes.searchPage);
-                      }
-                    },
-                    child: AbsorbPointer(
-                      absorbing: true,
-                      child: CupertinoTextField(
-                        // controller: textEditingController,
-                        // focusNode: focusNode,
-                        // onSubmitted: (value) => onFieldSubmitted,
-                        style: Theme.of(context).textTheme.displaySmall,
-                        prefix: Padding(
-                          padding: EdgeInsets.only(left: 11.w),
-                          child: Icon(
-                            CupertinoIcons.search,
-                            size: 18.w,
-                            color: Theme.of(context)
-                                .copyWith(focusColor: const Color(0xFF8E8E93))
-                                .focusColor,
-                          ),
+                  child: IgnorePointer(
+                    ignoring: false,
+                    child: CupertinoTextField(
+                      dragStartBehavior: DragStartBehavior.down,
+                      onTap: () {
+                        if (kDebugMode) {
+                          Navigator.of(context).pushNamed(AppRoutes.searchPage);
+                        }
+                      },
+                      // controller: textEditingController,
+                      // focusNode: focusNode,
+                      // onSubmitted: (value) => onFieldSubmitted,
+                      style: Theme.of(context).textTheme.displaySmall,
+                      prefix: Padding(
+                        padding: EdgeInsets.only(left: 11.w),
+                        child: Icon(
+                          CupertinoIcons.search,
+                          size: 18.w,
+                          color: Theme.of(context)
+                              .copyWith(focusColor: const Color(0xFF8E8E93))
+                              .focusColor,
                         ),
-                        placeholder: "Search",
-                        placeholderStyle: Theme.of(context)
-                            .textTheme
-                            .displaySmall!
-                            .copyWith(
-                                color: const Color(0xFF8E8E93),
-                                fontSize: 16.sp),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.w),
-                            color: Theme.of(context)
-                                .cupertinoOverrideTheme!
-                                .barBackgroundColor),
                       ),
+                      placeholder: "Search",
+                      placeholderStyle: Theme.of(context)
+                          .textTheme
+                          .displaySmall!
+                          .copyWith(
+                              color: const Color(0xFF8E8E93), fontSize: 16.sp),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.w),
+                          color: Theme.of(context)
+                              .cupertinoOverrideTheme!
+                              .barBackgroundColor),
                     ),
-                    //? Avtocomplate widget
-                    // child: Autocomplete<UserModel>(
-                    //   optionsViewBuilder: (context, onSelected, options) =>
-                    //       ListView.builder(
-                    //           shrinkWrap: true,
-                    //           itemCount: options.length,
-                    //           itemBuilder: (context, index) => UserWidget(
-                    //                 user: options.toList()[index],
-                    //               )),
-                    //   fieldViewBuilder: (context, textEditingController, focusNode,
-                    //           onFieldSubmitted) =>
-                    //       CupertinoTextField(
-                    //     controller: textEditingController,
-                    //     focusNode: focusNode,
-                    //     onSubmitted: (value) => onFieldSubmitted,
-                    //     style: Theme.of(context).textTheme.displaySmall,
-                    //     prefix: Padding(
-                    //       padding: EdgeInsets.only(left: 11.w),
-                    //       child: Icon(
-                    //         CupertinoIcons.search,
-                    //         size: 18.w,
-                    //         color: Theme.of(context)
-                    //             .copyWith(focusColor: const Color(0xFF8E8E93))
-                    //             .focusColor,
-                    //       ),
-                    //     ),
-                    //     placeholder: "Search",
-                    //     placeholderStyle: Theme.of(context)
-                    //         .textTheme
-                    //         .displaySmall!
-                    //         .copyWith(
-                    //             color: const Color(0xFF8E8E93), fontSize: 16.sp),
-                    //     decoration: BoxDecoration(
-                    //         borderRadius: BorderRadius.circular(10.w),
-                    //         color: Theme.of(context)
-                    //             .cupertinoOverrideTheme!
-                    //             .barBackgroundColor),
-                    //   ),
-
-                    //   optionsBuilder: (textEditingValue) {
-                    //     if (textEditingValue.text.isEmpty) {
-                    //       return const Iterable<UserModel>.empty();
-                    //     }
-                    //     return _wordsList.where((element) =>
-                    //         element.username!.contains(textEditingValue.text));
-                    //   },
-                    //   onSelected: (option) {
-                    //     log(option.toString());
-                    //   },
-                    // ),
                   ),
                 ),
 
@@ -170,8 +119,8 @@ class _SearchViewState extends State<SearchView> {
                           primary: false,
                           gridDelegate: SliverQuiltedGridDelegate(
                             crossAxisCount: 3,
-                            mainAxisSpacing: 4,
-                            crossAxisSpacing: 4,
+                            mainAxisSpacing: 2.h,
+                            crossAxisSpacing: 2.w,
                             repeatPattern: QuiltedGridRepeatPattern.inverted,
                             pattern: [
                               const QuiltedGridTile(2, 1),
@@ -193,14 +142,89 @@ class _SearchViewState extends State<SearchView> {
 
                               final post = PostModel.fromJson(
                                   snapshot.docs[index].data());
-                              return Card(
-                                child: CachedNetworkImage(
-                                  imageUrl: post.imageUrl ?? '',
-                                  fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) =>
-                                      const SizedBox.shrink(),
-                                  placeholder: (context, url) =>
-                                      const SizedBox.shrink(),
+                              return CupertinoContextMenu(
+                                actions: const [
+                                  CupertinoContextMenuAction(
+                                    child: Text('send'),
+                                  ),
+                                  // CupertinoContextMenuAction(
+                                  //     child: SizedBox.shrink()),
+                                ],
+                                previewBuilder: (context, animation, child) =>
+                                    FadeTransition(
+                                  opacity: animation,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Card(
+                                          color: Colors.transparent,
+                                          margin: EdgeInsets.zero,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5.w)),
+                                          child: ListTile(
+                                            dense: true,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5.w)),
+                                            tileColor: Theme.of(context)
+                                                .backgroundColor,
+                                            leading: Container(
+                                                padding: EdgeInsets.all(3.w),
+                                                height: 50.w,
+                                                width: 50.w,
+                                                decoration: const BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          25.w),
+                                                  child: CachedNetworkImage(
+                                                    fit: BoxFit.cover,
+                                                    imageUrl:
+                                                        post.userAvatar ?? '',
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        const SizedBox.shrink(),
+                                                    width: 25.w,
+                                                    height: 25.w,
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const SizedBox.shrink(),
+                                                  ),
+                                                )),
+                                            title: RichText(
+                                              text: TextSpan(
+                                                text: post.username ?? 'user',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .displaySmall!
+                                                    .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                              ),
+                                            ),
+                                          )),
+                                      Flexible(
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.w),
+                                              child: child)),
+                                    ],
+                                  ),
+                                ),
+                                child: Card(
+                                  margin: EdgeInsets.zero,
+                                  child: CachedNetworkImage(
+                                    imageUrl: post.imageUrl ?? '',
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) =>
+                                        const SizedBox.shrink(),
+                                    placeholder: (context, url) =>
+                                        const SizedBox.shrink(),
+                                  ),
                                 ),
                               );
                             },
