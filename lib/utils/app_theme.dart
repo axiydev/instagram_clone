@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -77,6 +78,8 @@ class AppTheme {
       );
 //? Light Theme
   static ThemeData get lightTheme => ThemeData(
+      cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
+          barBackgroundColor: const Color(0xFF767680).withOpacity(.12)),
       textTheme: _lightTextTheme(),
       dialogTheme: const DialogTheme(backgroundColor: Colors.white),
       brightness: Brightness.dark,
@@ -108,6 +111,8 @@ class AppTheme {
 //? Dark Theme
   static ThemeData get darkTheme => ThemeData(
       backgroundColor: Colors.black,
+      cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
+          barBackgroundColor: Color(0xFF262626)),
       scaffoldBackgroundColor: Colors.black,
       dialogBackgroundColor: Colors.black,
       dialogTheme: const DialogTheme(backgroundColor: Colors.black),

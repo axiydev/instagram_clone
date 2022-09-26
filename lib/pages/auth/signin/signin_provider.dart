@@ -28,7 +28,8 @@ class SignInProvider extends SignInProviderRepository with ChangeNotifier {
       isLoading = true;
       notifyListeners();
       final UserCredential? userCredential = await AuthSrc.signIn(
-          username: userNameController.text, password: passwordController.text);
+          username: userNameController.text.trim(),
+          password: passwordController.text.trim());
       if (userCredential != null) {
         isLoading = false;
         // ignore: use_build_context_synchronously

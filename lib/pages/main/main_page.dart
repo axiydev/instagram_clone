@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/pages/main/main_provider.dart';
 import 'package:instagram_clone/pages/main/post/create_post/create_post_page.dart';
 import 'package:instagram_clone/pages/main/post/posts/posts_page.dart';
+import 'package:instagram_clone/pages/search/search_view.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
 import 'package:provider/provider.dart';
 
@@ -18,9 +19,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final List _pageList = [
     PostsPage.show,
-    const Center(
-      child: Text('search'),
-    ),
+    SearchView.show,
     CreatePost.show,
     const Center(
       child: Text('heart'),

@@ -30,78 +30,79 @@ class _PostsPageState extends State<PostsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(40),
-          child: AppBar(
-            title: Text(
-              'Instagram',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(fontSize: 30.sp),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(40),
+        child: AppBar(
+          title: Text(
+            'Instagram',
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge!
+                .copyWith(fontSize: 30.sp),
+          ),
+          centerTitle: true,
+          backgroundColor: Theme.of(context).backgroundColor,
+          elevation: .0,
+          actions: [
+            Consumer<PostsProvider>(
+              builder: (context, postValue, _) => IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.add_box_outlined,
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .selectedItemColor,
+                ),
+              ),
             ),
-            centerTitle: true,
-            backgroundColor: Theme.of(context).backgroundColor,
-            elevation: .0,
-            actions: [
-              Consumer<PostsProvider>(
-                builder: (context, postValue, _) => IconButton(
-                  onPressed: () {},
+            Consumer2<PostsProvider, MainProvider>(
+              builder: (context, value, valueMain, child) => IconButton(
+                  onPressed: () {
+                    valueMain.logout(context);
+                  },
                   icon: Icon(
-                    Icons.add_box_outlined,
+                    Icons.logout,
                     color: Theme.of(context)
                         .bottomNavigationBarTheme
                         .selectedItemColor,
-                  ),
-                ),
-              ),
-              Consumer2<PostsProvider, MainProvider>(
-                builder: (context, value, valueMain, child) => IconButton(
-                    onPressed: () {
-                      valueMain.logout(context);
-                    },
-                    icon: Icon(
-                      Icons.logout,
-                      color: Theme.of(context)
-                          .bottomNavigationBarTheme
-                          .selectedItemColor,
-                    )),
-              ),
-              SizedBox(
-                width: 15.w,
-              ),
-            ],
-          ),
+                  )),
+            ),
+            SizedBox(
+              width: 15.w,
+            ),
+          ],
         ),
-        body: Consumer<PostsProvider>(
-          builder: (context, valuePosts, child) => FirestoreListView(
-            shrinkWrap: true,
-            query: FirebaseFirestore.instance
-                .collection('posts')
-                .orderBy('datePublished', descending: true),
-            itemBuilder: (context, doc) {
-              if (doc.data().isEmpty) {
-                return const Center(
-                  child: CupertinoActivityIndicator(),
-                );
-              }
-              if (!doc.exists) {
-                return const Center(
-                  child: CupertinoActivityIndicator(),
-                );
-              }
-              PostModel? post = PostModel.fromDocumentSnapshot(doc);
-
-              // valuePosts.getCommentLength(postId: post.postId);
-              return PostItem(
-                post: post,
-                fullCommentLength: post.comments!,
-                addLike: () => valuePosts.addLike(post: post),
-                removeLike: () => valuePosts.removeLike(post: post),
-                liked: FireSrc.isLiked(myPost: post),
+      ),
+      body: Consumer<PostsProvider>(
+        builder: (context, valuePosts, child) => FirestoreListView(
+          shrinkWrap: true,
+          query: FirebaseFirestore.instance
+              .collection('posts')
+              .orderBy('datePublished', descending: true),
+          itemBuilder: (context, doc) {
+            if (doc.data().isEmpty) {
+              return const Center(
+                child: CupertinoActivityIndicator(),
               );
-            },
-          ),
-        ));
+            }
+            if (!doc.exists) {
+              return const Center(
+                child: CupertinoActivityIndicator(),
+              );
+            }
+            PostModel? post = PostModel.fromDocumentSnapshot(doc);
+
+            // valuePosts.getCommentLength(postId: post.postId);
+            return PostItem(
+              post: post,
+              fullCommentLength: post.comments!,
+              addLike: () => valuePosts.addLike(post: post),
+              removeLike: () => valuePosts.removeLike(post: post),
+              liked: FireSrc.isLiked(myPost: post),
+            );
+          },
+        ),
+      ),
+    );
   }
 }

@@ -45,7 +45,7 @@ class SignUpProvider extends SignUpProviderRepository with ChangeNotifier {
   void signUp(BuildContext context) async {
     FocusScope.of(context).unfocus();
     RegExp exp = RegExp(r"^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$");
-    if (!exp.hasMatch(emailController.text)) {
+    if (!exp.hasMatch(emailController.text.trim())) {
       AppUtils.showDialog(context, msg: 'Gmail kiritishda xatolik bor');
       return;
     }

@@ -1,29 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone/models/user_model.dart';
 import 'package:instagram_clone/pages/main/post/posts/widget/post_item.dart';
-import 'package:intl/intl.dart';
 
-class CustomCardItem extends StatelessWidget {
-  const CustomCardItem({
-    Key? key,
-    required this.username,
-    required this.datetime,
-    required this.imageUrl,
-    required this.text,
-  }) : super(key: key);
-
-  final String? username;
-  final String? datetime;
-  final String? imageUrl;
-  final String? text;
+class UserWidget extends StatelessWidget {
+  final UserModel user;
+  final VoidCallback onPress;
+  const UserWidget({super.key, required this.user, required this.onPress});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-        margin: EdgeInsets.zero,
+        margin: EdgeInsets.symmetric(vertical: 10.h),
         child: ListTile(
           dense: false,
+          onTap: onPress,
           tileColor: Theme.of(context).backgroundColor,
           leading: RepaintBoundary(
             child: CustomPaint(
@@ -39,8 +31,10 @@ class CustomCardItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25.w),
                     child: CachedNetworkImage(
                       fit: BoxFit.cover,
-                      imageUrl: imageUrl!,
+                      imageUrl: user.photoAvatarUrl ?? '',
                       placeholder: (context, url) => const SizedBox.shrink(),
+                      width: 25.w,
+                      height: 25.w,
                       errorWidget: (context, url, error) =>
                           const SizedBox.shrink(),
                     ),
@@ -49,21 +43,11 @@ class CustomCardItem extends StatelessWidget {
           ),
           title: RichText(
             text: TextSpan(
-                text: username!,
-                style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                children: [
-                  TextSpan(
-                    text: ' ${text ?? "default"}',
-                    style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
-                  )
-                ]),
-          ),
-          subtitle: Text(
-            DateFormat.MMMEd().format(DateTime.tryParse(datetime!)!),
+              text: user.username ?? 'user',
+              style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
           ),
         ));
   }

@@ -49,7 +49,7 @@ class PostItem extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(25),
+                      borderRadius: BorderRadius.circular(25.w),
                       child: CachedNetworkImage(
                         fit: BoxFit.cover,
                         imageUrl: post!.userAvatar!,
@@ -215,7 +215,7 @@ class MyPainter extends CustomPainter {
         const Color(0xFFA60F93),
       ],
     );
-    canvas.drawCircle(const Offset(26, 26), 25, myPaint);
+    canvas.drawCircle(Offset(25.w, 25.w), 25.w, myPaint);
   }
 
   @override
