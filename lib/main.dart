@@ -9,6 +9,8 @@ import 'package:instagram_clone/pages/main/post/comment/comment_page.dart';
 import 'package:instagram_clone/pages/main/post/create_post/create_post_page.dart';
 import 'package:instagram_clone/pages/main/post/create_post/create_post_provider.dart';
 import 'package:instagram_clone/pages/main/post/posts/posts_page.dart';
+import 'package:instagram_clone/pages/search/search_page.dart';
+import 'package:instagram_clone/pages/search/search_view.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
 import 'package:provider/provider.dart';
 
@@ -50,6 +52,8 @@ class MyApp extends StatelessWidget {
                 child: const SignUpPage()),
             AppRoutes.postsPage: (_) => PostsPage.show,
             AppRoutes.comment: (_) => CommentPage.show,
+            AppRoutes.searchView: (_) => SearchView.show,
+            AppRoutes.searchPage: (_) => SearchPage.show,
             AppRoutes.mainPage: (_) => MultiProvider(
                   providers: [
                     ChangeNotifierProvider(
@@ -72,7 +76,6 @@ class MyApp extends StatelessWidget {
                   child: CupertinoActivityIndicator(),
                 );
               }
-
               if (snapshot.connectionState == ConnectionState.active) {
                 if (snapshot.hasData) {
                   return MultiProvider(
