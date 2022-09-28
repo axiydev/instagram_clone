@@ -40,9 +40,6 @@ class _SearchPageState extends State<SearchPage> {
           title: Consumer<SearchViewProvider>(
               builder: (context, providerValue, _) {
             return CupertinoTextField(
-              // controller: textEditingController,
-              // focusNode: focusNode,
-              // onSubmitted: (value) => onFieldSubmitted,
               onChanged: (value) {
                 if (value.isNotEmpty) {
                   providerValue.updateStateSearch();

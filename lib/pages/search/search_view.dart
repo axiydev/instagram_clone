@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:instagram_clone/models/post_model.dart';
-import 'package:instagram_clone/models/user_model.dart';
 import 'package:instagram_clone/pages/search/search_provider.dart';
 import 'package:instagram_clone/services/fire/fire_src.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
@@ -25,36 +24,6 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
-  final List<UserModel> _wordsList = [
-    const UserModel(
-        username: 'sarvar',
-        photoAvatarUrl:
-            'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg'),
-    const UserModel(
-        username: 'sarvar1',
-        photoAvatarUrl:
-            'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg'),
-    const UserModel(
-        username: 'sardor',
-        photoAvatarUrl:
-            'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg'),
-    const UserModel(
-        username: 'sarvar1',
-        photoAvatarUrl:
-            'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg'),
-    const UserModel(
-        username: 'gitler',
-        photoAvatarUrl:
-            'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg'),
-    const UserModel(
-        username: 'sarvar',
-        photoAvatarUrl:
-            'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg'),
-    const UserModel(
-        username: 'sarvar',
-        photoAvatarUrl:
-            'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg'),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,9 +44,6 @@ class _SearchViewState extends State<SearchView> {
                           Navigator.of(context).pushNamed(AppRoutes.searchPage);
                         }
                       },
-                      // controller: textEditingController,
-                      // focusNode: focusNode,
-                      // onSubmitted: (value) => onFieldSubmitted,
                       style: Theme.of(context).textTheme.displaySmall,
                       prefix: Padding(
                         padding: EdgeInsets.only(left: 11.w),
@@ -111,9 +77,17 @@ class _SearchViewState extends State<SearchView> {
                         .orderBy('datePublished', descending: true),
                     pageSize: 15,
                     builder: (context, snapshot, _) {
-                      // if we reached the end of the currently obtained items, we try to
-                      // obtain more item
+                      if (snapshot.hasError) {
+                        return const Center(
+                          child: Text('you have an error'),
+                        );
+                      }
 
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: CupertinoActivityIndicator(),
+                        );
+                      }
                       return GridView.custom(
                           shrinkWrap: true,
                           primary: false,
@@ -143,76 +117,89 @@ class _SearchViewState extends State<SearchView> {
                               final post = PostModel.fromJson(
                                   snapshot.docs[index].data());
                               return CupertinoContextMenu(
-                                actions: const [
+                                actions: [
                                   CupertinoContextMenuAction(
-                                    child: Text('send'),
+                                    child: Text(
+                                      post.username ?? "post",
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
-                                  // CupertinoContextMenuAction(
-                                  //     child: SizedBox.shrink()),
                                 ],
                                 previewBuilder: (context, animation, child) =>
                                     FadeTransition(
                                   opacity: animation,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Card(
-                                          color: Colors.transparent,
-                                          margin: EdgeInsets.zero,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5.w)),
-                                          child: ListTile(
-                                            dense: true,
+                                  child: Card(
+                                    color: Colors.transparent,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Card(
+                                            color: Colors.transparent,
+                                            margin: EdgeInsets.zero,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(5.w)),
-                                            tileColor: Theme.of(context)
-                                                .backgroundColor,
-                                            leading: Container(
-                                                padding: EdgeInsets.all(3.w),
-                                                height: 50.w,
-                                                width: 50.w,
-                                                decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                child: ClipRRect(
+                                            child: ListTile(
+                                              dense: true,
+                                              shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          25.w),
-                                                  child: CachedNetworkImage(
-                                                    fit: BoxFit.cover,
-                                                    imageUrl:
-                                                        post.userAvatar ?? '',
-                                                    placeholder: (context,
-                                                            url) =>
-                                                        const SizedBox.shrink(),
-                                                    width: 25.w,
-                                                    height: 25.w,
-                                                    errorWidget: (context, url,
-                                                            error) =>
-                                                        const SizedBox.shrink(),
+                                                          5.w)),
+                                              tileColor: Theme.of(context)
+                                                  .backgroundColor,
+                                              leading: Container(
+                                                  padding: EdgeInsets.all(3.w),
+                                                  height: 50.w,
+                                                  width: 50.w,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    shape: BoxShape.circle,
                                                   ),
-                                                )),
-                                            title: RichText(
-                                              text: TextSpan(
-                                                text: post.username ?? 'user',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .displaySmall!
-                                                    .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w600,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25.w),
+                                                    child: CachedNetworkImage(
+                                                      fit: BoxFit.cover,
+                                                      imageUrl:
+                                                          post.userAvatar ?? '',
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          const SizedBox
+                                                              .shrink(),
+                                                      width: 25.w,
+                                                      height: 25.w,
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          const SizedBox
+                                                              .shrink(),
                                                     ),
+                                                  )),
+                                              title: RichText(
+                                                text: TextSpan(
+                                                  text: post.username ?? 'user',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .displaySmall!
+                                                      .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                ),
                                               ),
-                                            ),
-                                          )),
-                                      Flexible(
-                                          child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.w),
-                                              child: child)),
-                                    ],
+                                            )),
+                                        Flexible(
+                                          child: Card(
+                                              margin: EdgeInsets.zero,
+                                              color: Colors.transparent,
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.w),
+                                                  child: child)),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 child: Card(

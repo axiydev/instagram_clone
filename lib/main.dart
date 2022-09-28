@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/pages/auth/auth_export.dart';
 import 'package:instagram_clone/pages/main/main_page.dart';
-import 'package:instagram_clone/pages/main/main_provider.dart';
 import 'package:instagram_clone/pages/main/post/comment/comment_page.dart';
 import 'package:instagram_clone/pages/main/post/create_post/create_post_page.dart';
-import 'package:instagram_clone/pages/main/post/create_post/create_post_provider.dart';
 import 'package:instagram_clone/pages/main/post/posts/posts_page.dart';
+import 'package:instagram_clone/pages/profile/profile/profile_page_provider.dart';
 import 'package:instagram_clone/pages/search/search_page.dart';
 import 'package:instagram_clone/pages/search/search_view.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
-import 'package:provider/provider.dart';
 
 /*
 Created by Axmadjon Isaqov on 18:54:39 20.09.2022
@@ -37,32 +35,15 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => MaterialApp(
           debugShowCheckedModeBanner: false,
           routes: {
-            AppRoutes.signIn: (_) => ChangeNotifierProvider(
-                  create: (_) => SignInProvider(),
-                  lazy: false,
-                  child: const SignInPage(),
-                ),
-            AppRoutes.createPost: (_) => ChangeNotifierProvider(
-                  create: (_) => CreatePostProvider(),
-                  child: const CreatePost(),
-                ),
-            AppRoutes.signUp: (_) => ChangeNotifierProvider(
-                lazy: false,
-                create: (_) => SignUpProvider(),
-                child: const SignUpPage()),
+            AppRoutes.signIn: (_) => SignInPage.view,
+            AppRoutes.createPost: (_) => CreatePost.show,
+            AppRoutes.signUp: (_) => SignUpPage.view,
             AppRoutes.postsPage: (_) => PostsPage.show,
             AppRoutes.comment: (_) => CommentPage.show,
             AppRoutes.searchView: (_) => SearchView.show,
             AppRoutes.searchPage: (_) => SearchPage.show,
-            AppRoutes.mainPage: (_) => MultiProvider(
-                  providers: [
-                    ChangeNotifierProvider(
-                      create: (_) => MainProvider(),
-                    ),
-                    ChangeNotifierProvider(create: (_) => CreatePostProvider())
-                  ],
-                  child: const MainPage(),
-                )
+            AppRoutes.mainPage: (_) => MainPage.view,
+            AppRoutes.profilePage: (_) => ProfilePage.view
           },
           title: 'Flutter Demo',
           themeMode: value,
@@ -78,28 +59,12 @@ class MyApp extends StatelessWidget {
               }
               if (snapshot.connectionState == ConnectionState.active) {
                 if (snapshot.hasData) {
-                  return MultiProvider(
-                    providers: [
-                      ChangeNotifierProvider<MainProvider>(
-                        create: (_) => MainProvider(),
-                      ),
-                      ChangeNotifierProvider<CreatePostProvider>(
-                          create: (_) => CreatePostProvider())
-                    ],
-                    child: const MainPage(),
-                  );
+                  return MainPage.view;
                 } else {
-                  return ChangeNotifierProvider(
-                    create: (_) => SignInProvider(),
-                    lazy: false,
-                    child: const SignInPage(),
-                  );
+                  return SignInPage.view;
                 }
               }
-              return ChangeNotifierProvider(
-                create: (_) => SignInProvider(),
-                child: const SignInPage(),
-              );
+              return SignInPage.view;
             },
           ),
         ),

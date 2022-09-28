@@ -6,6 +6,10 @@ import 'package:instagram_clone/utils/app_utils_export.dart';
 import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
+  static Widget get view => ChangeNotifierProvider<SignUpProvider>(
+        create: (_) => SignUpProvider(),
+        child: const SignUpPage(),
+      );
   const SignUpPage({super.key});
 
   @override

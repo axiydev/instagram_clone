@@ -83,6 +83,7 @@ class AppTheme {
       textTheme: _lightTextTheme(),
       dialogTheme: const DialogTheme(backgroundColor: Colors.white),
       brightness: Brightness.dark,
+      appBarTheme: const AppBarTheme(backgroundColor: Color(0xFFFAFAFA)),
       primaryColor: Colors.black,
       dialogBackgroundColor: Colors.white,
       scaffoldBackgroundColor: Colors.white,
@@ -111,6 +112,7 @@ class AppTheme {
 //? Dark Theme
   static ThemeData get darkTheme => ThemeData(
       backgroundColor: Colors.black,
+      appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF121212)),
       cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
           barBackgroundColor: Color(0xFF262626)),
       scaffoldBackgroundColor: Colors.black,

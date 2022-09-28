@@ -7,4 +7,5 @@ class AppRoutes {
   static const comment = '/comment';
   static const searchView = '/search_view';
   static const searchPage = '/searchPage';
+  static const profilePage = '/profilePage';
 }

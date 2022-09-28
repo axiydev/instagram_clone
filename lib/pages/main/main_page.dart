@@ -2,14 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone/data/app_data.dart';
 import 'package:instagram_clone/pages/main/main_provider.dart';
-import 'package:instagram_clone/pages/main/post/create_post/create_post_page.dart';
-import 'package:instagram_clone/pages/main/post/posts/posts_page.dart';
-import 'package:instagram_clone/pages/search/search_view.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
 import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
+  static Widget get view => MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => MainProvider(),
+          ),
+        ],
+        child: const MainPage(),
+      );
   const MainPage({super.key});
 
   @override
@@ -17,18 +23,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final List _pageList = [
-    PostsPage.show,
-    SearchView.show,
-    CreatePost.show,
-    const Center(
-      child: Text('heart'),
-    ),
-    const Center(
-      child: Text('user'),
-    )
-  ];
-
   @override
   void didChangeDependencies() {
     context.read<MainProvider>().getUserAvatar();
@@ -47,8 +41,7 @@ class _MainPageState extends State<MainPage> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         tabBar: CupertinoTabBar(
           onTap: (newIndex) => mainValue.changeIndex(newIndex),
-          backgroundColor:
-              Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           items: [
             BottomNavigationBarItem(
               icon: const Icon(
@@ -140,7 +133,7 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
         tabBuilder: (context, index) => Material(
-            color: Theme.of(context).backgroundColor, child: _pageList[index]),
+            color: Theme.of(context).backgroundColor, child: pageList[index]),
       );
     });
   }

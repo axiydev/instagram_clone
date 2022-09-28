@@ -41,7 +41,7 @@ class _PostsPageState extends State<PostsPage> {
                 .copyWith(fontSize: 30.sp),
           ),
           centerTitle: true,
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           elevation: .0,
           actions: [
             Consumer<PostsProvider>(

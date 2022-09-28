@@ -11,7 +11,7 @@ class AuthSrc {
   static final _firebaseAuth = FirebaseAuth.instance;
   static final _firebaseStorage = FirebaseStorage.instance;
   static final _firebaseFirestore = FirebaseFirestore.instance;
-
+  static FirebaseAuth get firebaseAuth => _firebaseAuth;
 //? sign in
 
   static Future<UserCredential?> signIn(
