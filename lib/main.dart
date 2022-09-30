@@ -10,6 +10,7 @@ import 'package:instagram_clone/pages/main/post/posts/posts_page.dart';
 import 'package:instagram_clone/pages/profile/profile/profile_page_provider.dart';
 import 'package:instagram_clone/pages/search/search_page.dart';
 import 'package:instagram_clone/pages/search/search_view.dart';
+import 'package:instagram_clone/pages/search/user/user_view.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
 
 /*
@@ -43,11 +44,16 @@ class MyApp extends StatelessWidget {
             AppRoutes.searchView: (_) => SearchView.show,
             AppRoutes.searchPage: (_) => SearchPage.show,
             AppRoutes.mainPage: (_) => MainPage.view,
-            AppRoutes.profilePage: (_) => ProfilePage.view
+            AppRoutes.profilePage: (_) => ProfilePage.view,
+            AppRoutes.userPageView: (_) => UserPageView.show
           },
           title: 'Flutter Demo',
           themeMode: value,
+
+          /// light [theme]
           theme: AppTheme.lightTheme,
+
+          /// dark [theme]
           darkTheme: AppTheme.darkTheme,
           home: StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),

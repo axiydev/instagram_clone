@@ -165,6 +165,106 @@ class FireSrc {
     return null;
   }
 
+  static Future<bool?> followUser(
+      {required String? followingUserId,
+      required String? followedUserId}) async {
+    try {
+      final userFollowing = await _firebaseFirestore
+          .collection('users')
+          .doc(followingUserId)
+          .get();
+      final userFollowed = await _firebaseFirestore
+          .collection('users')
+          .doc(followedUserId)
+          .get();
+
+      bool? isFollowed = false;
+      bool? isFollowing = false;
+      log(userFollowing.data()!['followers'].toString());
+      if (!userFollowing.data()!['followers'].contains(followedUserId)) {
+        await _firebaseFirestore
+            .collection('users')
+            .doc(followingUserId)
+            .update({
+          'followers': FieldValue.arrayUnion([followedUserId])
+        });
+
+        isFollowed = true;
+      }
+
+      if (!userFollowed.data()!['followers'].contains(followingUserId)) {
+        await _firebaseFirestore
+            .collection('users')
+            .doc(followedUserId)
+            .update({
+          'following': FieldValue.arrayUnion([followingUserId])
+        });
+        isFollowing = true;
+      }
+
+      return isFollowing && isFollowed;
+    } on FirebaseException catch (e) {
+      log(e.toString());
+    }
+
+    return null;
+  }
+
+  static Future<bool?> checkFollowing(
+      {required String? followingUserId,
+      required String? followedUserId}) async {
+    try {
+      final userFollowing = await _firebaseFirestore
+          .collection('users')
+          .doc(followingUserId)
+          .get();
+      var data = userFollowing.data();
+
+      if (data!['followers']!.contains(followedUserId)) {
+        return true;
+      }
+      return false;
+    } on FirebaseException catch (e) {
+      log(e.toString());
+    }
+
+    return null;
+  }
+
+  static Future<bool?> unfollowUser(
+      {required String? followingUserId,
+      required String? followedUserId}) async {
+    try {
+      final userFollowing = await _firebaseFirestore
+          .collection('users')
+          .doc(followingUserId)
+          .get();
+      final UserModel userFollowingData =
+          UserModel.fromDocumentSnapshot(userFollowing);
+
+      if (userFollowingData.followers!.contains(followedUserId)) {
+        await _firebaseFirestore
+            .collection('users')
+            .doc(followingUserId)
+            .update({
+          'followers': FieldValue.arrayRemove([followedUserId])
+        });
+
+        await _firebaseFirestore
+            .collection('users')
+            .doc(followedUserId)
+            .update({
+          'following': FieldValue.arrayRemove([followingUserId])
+        });
+        return true;
+      }
+    } on FirebaseException catch (e) {
+      log(e.toString());
+    }
+
+    return null;
+  }
+
   static Future<int?> getCommentLength({
     String? postId,
   }) async {

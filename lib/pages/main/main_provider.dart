@@ -11,7 +11,17 @@ class MainProvider with ChangeNotifier {
       CupertinoTabController();
   int? _currentIndex = 0;
   UserModel? _user;
+  UserModel? _selectedUser;
   String? _imageUrl;
+
+  void getUser({required String? uid}) async {
+    try {
+      _selectedUser = await AuthSrc.getSelectedUser(userUid: uid);
+      notifyListeners();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 
   Future<void> logout(BuildContext context) async {
     try {
@@ -45,4 +55,5 @@ class MainProvider with ChangeNotifier {
   int? get currentIndex => _currentIndex;
   String? get imageUrl => _imageUrl;
   UserModel? get user => _user;
+  UserModel? get selectedUser => _selectedUser;
 }

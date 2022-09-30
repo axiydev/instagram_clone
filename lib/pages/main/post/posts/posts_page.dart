@@ -7,6 +7,7 @@ import 'package:instagram_clone/models/post_model.dart';
 import 'package:instagram_clone/pages/main/main_provider.dart';
 import 'package:instagram_clone/pages/main/post/posts/posts_provider.dart';
 import 'package:instagram_clone/pages/main/post/posts/widget/post_item.dart';
+import 'package:instagram_clone/services/auth/auth_src.dart';
 import 'package:instagram_clone/services/fire/fire_src.dart';
 import 'package:provider/provider.dart';
 
@@ -92,9 +93,9 @@ class _PostsPageState extends State<PostsPage> {
             }
             PostModel? post = PostModel.fromDocumentSnapshot(doc);
 
-            // valuePosts.getCommentLength(postId: post.postId);
-            return PostItem(
+            return PostItem.show(
               post: post,
+              currentUser: AuthSrc.firebaseAuth.currentUser!.uid,
               fullCommentLength: post.comments!,
               addLike: () => valuePosts.addLike(post: post),
               removeLike: () => valuePosts.removeLike(post: post),

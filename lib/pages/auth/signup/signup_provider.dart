@@ -87,10 +87,8 @@ class SignUpProvider extends SignUpProviderRepository with ChangeNotifier {
     }
   }
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-  }
-
   File? get imageFile => _file;
+
+  @override
+  void onInit() {}
 }

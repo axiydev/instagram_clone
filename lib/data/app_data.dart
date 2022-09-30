@@ -5,11 +5,11 @@ import 'package:instagram_clone/pages/profile/profile/profile_page_provider.dart
 import 'package:instagram_clone/pages/search/search_view.dart';
 
 final List pageList = [
-  ProfilePage.view,
   PostsPage.show,
   SearchView.show,
   CreatePost.show,
   const Center(
     child: Text('heart'),
   ),
+  ProfilePage.view,
 ];

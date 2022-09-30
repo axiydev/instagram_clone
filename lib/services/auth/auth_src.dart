@@ -42,8 +42,8 @@ class AuthSrc {
           uid: userCredential.user!.uid,
           email: email,
           bio: bio,
-          followers: [],
-          following: [],
+          followers: <String>[],
+          following: <String>[],
           photoAvatarUrl:
               await uploadFileToStorage(fileName: username!, file: imageFile));
       if (user.photoAvatarUrl == null) return null;
@@ -73,6 +73,20 @@ class AuthSrc {
       UploadTask? task = newRef.putFile(file!);
       await task;
       return newRef.getDownloadURL();
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
+  static Future<UserModel?> getSelectedUser({required String? userUid}) async {
+    try {
+      final uid = userUid;
+      final DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
+          await _firebaseFirestore.collection('users').doc(uid).get();
+      final UserModel userModel =
+          UserModel.fromDocumentSnapshot(documentSnapshot);
+      return userModel;
     } catch (e) {
       log(e.toString());
     }
