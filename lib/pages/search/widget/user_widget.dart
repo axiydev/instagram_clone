@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/models/user_model.dart';
-import 'package:instagram_clone/pages/main/post/posts/widget/post_item.dart';
+import 'package:instagram_clone/utils/app_utils_export.dart';
 
 class UserWidget extends StatelessWidget {
   final UserModel user;
@@ -12,7 +12,8 @@ class UserWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        margin: EdgeInsets.symmetric(vertical: 10.h),
+        elevation: .0,
+        margin: const EdgeInsets.symmetric(vertical: .0),
         child: ListTile(
           dense: false,
           onTap: onPress,
@@ -22,8 +23,8 @@ class UserWidget extends StatelessWidget {
               painter: MyPainter(),
               child: Container(
                   padding: EdgeInsets.all(3.w),
-                  height: 50.w,
-                  width: 50.w,
+                  height: 32.w,
+                  width: 32.w,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   ),

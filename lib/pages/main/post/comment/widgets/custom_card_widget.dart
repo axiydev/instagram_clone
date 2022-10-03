@@ -1,22 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:instagram_clone/pages/main/post/posts/widget/post_item.dart';
+import 'package:instagram_clone/utils/app_utils_export.dart';
 import 'package:intl/intl.dart';
 
 class CustomCardItem extends StatelessWidget {
-  const CustomCardItem({
-    Key? key,
-    required this.username,
-    required this.datetime,
-    required this.imageUrl,
-    required this.text,
-  }) : super(key: key);
+  const CustomCardItem(
+      {Key? key,
+      required this.username,
+      required this.datetime,
+      required this.imageUrl,
+      required this.text,
+      required this.onPressed})
+      : super(key: key);
 
   final String? username;
   final String? datetime;
   final String? imageUrl;
   final String? text;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +26,16 @@ class CustomCardItem extends StatelessWidget {
         elevation: .0,
         margin: EdgeInsets.zero,
         child: ListTile(
-          dense: false,
+          dense: true,
+          onTap: onPressed,
           tileColor: Theme.of(context).backgroundColor,
           leading: RepaintBoundary(
             child: CustomPaint(
               painter: MyPainter(),
               child: Container(
                   padding: EdgeInsets.all(3.w),
-                  height: 50.w,
-                  width: 50.w,
+                  height: 32.w,
+                  width: 32.w,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   ),

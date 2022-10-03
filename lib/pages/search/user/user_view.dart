@@ -5,10 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/models/post_model.dart';
+import 'package:instagram_clone/models/user_model.dart';
 import 'package:instagram_clone/pages/main/main_provider.dart';
 import 'package:instagram_clone/pages/profile/profile/widget/info_widget.dart';
 import 'package:instagram_clone/pages/profile/profile/widget/story_widget.dart';
 import 'package:instagram_clone/pages/search/user/user_provider.dart';
+import 'package:instagram_clone/services/auth/auth_src.dart';
 import 'package:instagram_clone/services/fire/fire_src.dart';
 import 'package:instagram_clone/utils/app_constants.dart';
 import 'package:provider/provider.dart';
@@ -31,16 +33,22 @@ class UserPageView extends StatefulWidget {
 }
 
 class _UserPageViewState extends State<UserPageView> {
+  late String? userId;
   @override
   void didChangeDependencies() {
     context.read<UserViewProvider>().onChangeScroll();
     final Map<String, dynamic> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     if (args.containsKey('uid') && args['uid'] != null) {
+      userId = args['uid'];
       log(args['uid']);
       context.read<MainProvider>().getUser(uid: args['uid']);
       log(context.read<MainProvider>().selectedUser.toString());
+      context.read<UserViewProvider>().checkFollowing(
+          userId: args['uid'], myUid: AuthSrc.firebaseAuth.currentUser!.uid);
+      setState(() {});
     }
+    log('INITEDDD');
     super.didChangeDependencies();
   }
 
@@ -53,6 +61,10 @@ class _UserPageViewState extends State<UserPageView> {
           child: CupertinoActivityIndicator(),
         );
       }
+
+      if (userValue.isFollowed == null) {
+        return const Center(child: CupertinoActivityIndicator());
+      }
       return DefaultTabController(
         length: 2,
         child: NestedScrollView(
@@ -63,6 +75,13 @@ class _UserPageViewState extends State<UserPageView> {
                   SliverAppBar(
                     pinned: true,
                     floating: false,
+                    leading: IconButton(
+                        onPressed: () {
+                          if (Navigator.canPop(context)) {
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        icon: const Icon(Icons.arrow_back_ios)),
                     backgroundColor:
                         Theme.of(context).appBarTheme.backgroundColor,
                     elevation: .0,
@@ -124,16 +143,6 @@ class _UserPageViewState extends State<UserPageView> {
                       ),
                     ),
                     centerTitle: true,
-                    actions: [
-                      Icon(
-                        Icons.menu,
-                        size: 21.w,
-                        color: Theme.of(context).focusColor,
-                      ),
-                      SizedBox(
-                        width: 18.w,
-                      )
-                    ],
                     flexibleSpace: const FlexibleSpaceBar(),
                   ),
                   SliverToBoxAdapter(
@@ -178,9 +187,43 @@ class _UserPageViewState extends State<UserPageView> {
                                       ),
                                     ),
                                   ),
-                                  InfoWidget(
-                                      count: userValue.postCount,
-                                      title: 'Posts'),
+                                  //? posts
+                                  StreamBuilder(
+                                      stream: FireSrc.firebaseFirestore
+                                          .collection('posts')
+                                          .get()
+                                          .asStream(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasError) {
+                                          return const Center(
+                                            child: Text('you hav an error'),
+                                          );
+                                        }
+
+                                        if (!snapshot.hasData) {
+                                          return const Center(
+                                            child: CupertinoActivityIndicator(),
+                                          );
+                                        }
+
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Center(
+                                            child: CupertinoActivityIndicator(),
+                                          );
+                                        }
+
+                                        final data = snapshot.data;
+                                        var list = data!.docs
+                                            .where((e) =>
+                                                e.data()['userId'] == userId)
+                                            .toList();
+
+                                        log("data::${list.length}");
+                                        return InfoWidget(
+                                            count: list.length, title: 'Posts');
+                                      }),
+
                                   InfoWidget(
                                       count: mainValue
                                           .selectedUser!.followers!.length
@@ -230,28 +273,122 @@ class _UserPageViewState extends State<UserPageView> {
                               height: 15.h,
                             ),
                             //?button
-                            Padding(
-                              padding: EdgeInsets.only(left: 11.w, right: 28.w),
-                              child: SizedBox(
-                                height: 30.h,
-                                width: 343.w,
-                                child: CupertinoButton(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 0),
-                                  color: const Color(0xFF3797EF),
-                                  child: Text(
-                                    'Follow',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayMedium!
-                                        .copyWith(
-                                            fontSize: 13.sp,
-                                            fontWeight: FontWeight.w600),
-                                  ),
-                                  onPressed: () {},
-                                ),
-                              ),
-                            ),
+
+                            StreamBuilder(
+                                stream: FireSrc.firebaseFirestore
+                                    .collection('users')
+                                    .doc(userId)
+                                    .get()
+                                    .asStream(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError) {
+                                    return const Center(
+                                      child: Text('you hav an error'),
+                                    );
+                                  }
+
+                                  if (!snapshot.hasData) {
+                                    return const Center(
+                                      child: CupertinoActivityIndicator(),
+                                    );
+                                  }
+
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                      child: CupertinoActivityIndicator(),
+                                    );
+                                  }
+
+                                  UserModel? user =
+                                      UserModel.fromDocumentSnapshot(
+                                          snapshot.data);
+
+                                  if (userId ==
+                                      AuthSrc.firebaseAuth.currentUser!.uid) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 11.w, right: 28.w),
+                                      child: SizedBox(
+                                        height: 30.h,
+                                        width: 343.w,
+                                        child: CupertinoButton(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 0),
+                                          color:
+                                              Theme.of(context).backgroundColor,
+                                          child: Text(
+                                            'edit profile',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .displayMedium!
+                                                .copyWith(
+                                                    fontSize: 13.sp,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                          ),
+                                          onPressed: () {},
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  if (user.followers!.contains(
+                                      AuthSrc.firebaseAuth.currentUser!.uid)) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 11.w, right: 28.w),
+                                      child: SizedBox(
+                                        height: 30.h,
+                                        width: 343.w,
+                                        child: CupertinoButton(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 0),
+                                          color: const Color(0xFF000000),
+                                          child: Text(
+                                            'Unfollow',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .displayMedium!
+                                                .copyWith(
+                                                    fontSize: 13.sp,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                          ),
+                                          onPressed: () async {
+                                            userValue.unFollow(userId: userId);
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 11.w, right: 28.w),
+                                    child: SizedBox(
+                                      height: 30.h,
+                                      width: 343.w,
+                                      child: CupertinoButton(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 0),
+                                        color: const Color(0xFF3797EF),
+                                        child: Text(
+                                          'Follow',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .displayMedium!
+                                              .copyWith(
+                                                  fontSize: 13.sp,
+                                                  fontWeight: FontWeight.w600),
+                                        ),
+                                        onPressed: () async {
+                                          userValue.follow(
+                                              followingUserId: userId);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }),
 
                             SizedBox(
                               height: 16.h,
@@ -449,7 +586,7 @@ class _UserPageViewState extends State<UserPageView> {
                       crossAxisSpacing: 1.w,
                       mainAxisSpacing: 1.h,
                     ),
-                    itemCount: 20,
+                    itemCount: 0,
                     itemBuilder: (context, index) => Container(
                           color: Colors.green,
                         )),

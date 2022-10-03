@@ -1,5 +1,36 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:ui' as ui;
+
+enum ActionTypeCustom { delete, copyLink }
+
+class MyPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint myPaint = Paint();
+    myPaint.style = PaintingStyle.stroke;
+    myPaint.strokeWidth = 2.5.w;
+    myPaint.shader = ui.Gradient.linear(
+      const Offset(0, 1),
+      const Offset(1, 0),
+      [
+        const Color(0xFFffa95f).withOpacity(.5),
+        const Color(0xFFf99c4a).withOpacity(.15),
+        const Color(0xFFf47838).withOpacity(.3),
+        const Color(0xFFf99c4a).withOpacity(.45),
+        const Color(0xFFd92d7a).withOpacity(.7),
+        const Color(0xFFcc2a92).withOpacity(.8),
+        const Color(0xFFc32e92).withOpacity(.95)
+      ],
+      [.3, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+    );
+    canvas.drawCircle(Offset(16.w, 16.w), 16.w, myPaint);
+  }
+
+  @override
+  bool shouldRepaint(MyPainter oldDelegate) => false;
+}
 
 class AppUtils {
   static ValueNotifier<ThemeMode> themeMode = ValueNotifier(ThemeMode.dark);

@@ -5,6 +5,7 @@ import 'package:instagram_clone/models/user_model.dart';
 import 'package:instagram_clone/pages/search/search_provider.dart';
 import 'package:instagram_clone/pages/search/widget/user_widget.dart';
 import 'package:instagram_clone/services/fire/fire_src.dart';
+import 'package:instagram_clone/utils/app_utils_export.dart';
 import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
@@ -25,6 +26,7 @@ class _SearchPageState extends State<SearchPage> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(40.h),
         child: AppBar(
+          elevation: .4,
           toolbarHeight: 60.h,
           leading: IconButton(
             onPressed: () {
@@ -33,7 +35,10 @@ class _SearchPageState extends State<SearchPage> {
                 Navigator.of(context).pop();
               }
             },
-            icon: const Icon(Icons.arrow_back),
+            icon: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).focusColor,
+            ),
           ),
           backgroundColor: Theme.of(context).backgroundColor,
           leadingWidth: 30.w,
@@ -101,7 +106,8 @@ class _SearchPageState extends State<SearchPage> {
                   return UserWidget(
                     user: userModel,
                     onPress: () {
-                      //! bu joyi chala
+                      Navigator.of(context).pushNamed(AppRoutes.userPageView,
+                          arguments: {'uid': userModel.uid});
                     },
                   );
                 });

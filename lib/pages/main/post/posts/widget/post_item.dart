@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,6 @@ import 'package:instagram_clone/pages/main/post/posts/widget/post_item_provider.
 import 'package:instagram_clone/services/fire/fire_src.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
 import 'package:intl/intl.dart';
-import 'dart:ui' as ui;
 
 import 'package:provider/provider.dart';
 
@@ -62,6 +63,12 @@ class _PostItemState extends State<PostItem> {
   }
 
   @override
+  void dispose() {
+    log('DISPOSE');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<PostItemProvider>(builder: (context, postItemProvider, _) {
       return Card(
@@ -72,9 +79,10 @@ class _PostItemState extends State<PostItem> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
+              dense: true,
               tileColor: Colors.transparent,
               contentPadding:
-                  EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+                  EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
               title: InkWell(
                 onTap: () => postItemProvider.onPostTilePressed(context,
                     uid: widget.post!.userId),
@@ -85,11 +93,11 @@ class _PostItemState extends State<PostItem> {
               ),
               leading: RepaintBoundary(
                 child: CustomPaint(
-                  painter: MyPainter(),
+                  // painter: MyPainter(),
                   child: Container(
                       padding: EdgeInsets.all(3.w),
-                      height: 50.w,
-                      width: 50.w,
+                      height: 32.w,
+                      width: 32.w,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                       ),
@@ -112,14 +120,12 @@ class _PostItemState extends State<PostItem> {
                 children: [
                   if (postItemProvider.isFollowed == null)
                     const Center(child: CupertinoActivityIndicator()),
-                  // if (!widget.followed! &&
-                  //     (!postItemProvider.isFollowed! &&
-                  //         postItemProvider.isFollowed != null))
-                  FutureBuilder(
-                      future: FireSrc.firebaseFirestore
+                  StreamBuilder(
+                      stream: FireSrc.firebaseFirestore
                           .collection('users')
                           .doc(widget.currentUser)
-                          .get(),
+                          .get()
+                          .asStream(),
                       builder: (context, snapshot) {
                         if (snapshot.hasError) {
                           return const Center(
@@ -141,39 +147,63 @@ class _PostItemState extends State<PostItem> {
 
                         var doc = snapshot.data;
                         UserModel? user = UserModel.fromDocumentSnapshot(doc);
-
-                        if (user.following!.contains(widget.post!.userId)) {
-                          return const SizedBox.shrink();
-                        }
+                        log(user.following.toString());
 
                         if (widget.currentUser == widget.post!.userId) {
                           return const SizedBox.shrink();
                         }
-                        return SizedBox(
-                          width: 90.w,
-                          height: 28.h,
-                          child: CupertinoButton(
-                            onPressed: () => postItemProvider.follow(
-                                followingUserId: widget.post!.userId),
-                            padding: EdgeInsets.zero,
-                            color: const Color(0xFF3797EF),
-                            child: Text(
-                              'Follow',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displaySmall!
-                                  .copyWith(fontWeight: FontWeight.w500),
+                        if (!user.following!.contains(widget.post!.userId)) {
+                          return SizedBox(
+                            width: 90.w,
+                            height: 28.h,
+                            child: CupertinoButton(
+                              onPressed: () => postItemProvider.follow(
+                                  followingUserId: widget.post!.userId),
+                              padding: EdgeInsets.zero,
+                              color: const Color(0xFF3797EF),
+                              child: Text(
+                                'Follow',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displaySmall!
+                                    .copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
+
+                        return const SizedBox.shrink();
                       }),
                   SizedBox(
                     width: 10.w,
                   ),
-                  Icon(
-                    Icons.more_horiz,
-                    color: Theme.of(context).focusColor,
-                  ),
+                  PopupMenuButton<ActionTypeCustom>(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.w)),
+                      padding: EdgeInsets.zero,
+                      icon: Icon(
+                        Icons.more_horiz,
+                        color: Theme.of(context).focusColor,
+                      ),
+                      color: Theme.of(context).appBarTheme.backgroundColor,
+                      itemBuilder: (context) => [
+                            if (widget.post!.userId == widget.currentUser)
+                              PopupMenuItem(
+                                value: ActionTypeCustom.delete,
+                                child: const Text('Delete'),
+                                onTap: () async {
+                                  postItemProvider.deletePost(
+                                      post: widget.post);
+                                },
+                              ),
+                            PopupMenuItem(
+                              value: ActionTypeCustom.copyLink,
+                              child: const Text('CopyLink'),
+                              onTap: () {},
+                            ),
+                          ]),
                 ],
               ),
             ),
@@ -296,43 +326,18 @@ class _PostItemState extends State<PostItem> {
                 padding: EdgeInsets.symmetric(horizontal: 14.w),
                 child: SizedBox(
                     width: 375.w,
-                    child: InkWell(
-                      onTap: () {},
-                      child: Text(
-                        DateFormat.MMMMd().format(
-                            DateTime.tryParse(widget.post!.datePublished!) ??
-                                DateTime.now()),
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall!
-                            .copyWith(color: Colors.grey),
-                      ),
+                    child: Text(
+                      DateFormat.MMMMd().format(
+                          DateTime.tryParse(widget.post!.datePublished!) ??
+                              DateTime.now()),
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall!
+                          .copyWith(color: Colors.grey),
                     ))),
           ],
         ),
       );
     });
   }
-}
-
-class MyPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint myPaint = Paint();
-    myPaint.style = PaintingStyle.stroke;
-    myPaint.strokeWidth = 2.5.w;
-    myPaint.shader = ui.Gradient.linear(
-      const Offset(0, 1),
-      const Offset(1, 0),
-      [
-        // const Color(0xFFF89C47),
-        const Color(0xFFD91A46),
-        const Color(0xFFA60F93),
-      ],
-    );
-    canvas.drawCircle(Offset(25.w, 25.w), 25.w, myPaint);
-  }
-
-  @override
-  bool shouldRepaint(MyPainter oldDelegate) => false;
 }

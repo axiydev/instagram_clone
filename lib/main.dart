@@ -7,7 +7,7 @@ import 'package:instagram_clone/pages/main/main_page.dart';
 import 'package:instagram_clone/pages/main/post/comment/comment_page.dart';
 import 'package:instagram_clone/pages/main/post/create_post/create_post_page.dart';
 import 'package:instagram_clone/pages/main/post/posts/posts_page.dart';
-import 'package:instagram_clone/pages/profile/profile/profile_page_provider.dart';
+import 'package:instagram_clone/pages/profile/profile/profile_page.dart';
 import 'package:instagram_clone/pages/search/search_page.dart';
 import 'package:instagram_clone/pages/search/search_view.dart';
 import 'package:instagram_clone/pages/search/user/user_view.dart';

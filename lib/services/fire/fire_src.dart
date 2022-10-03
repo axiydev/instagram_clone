@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -30,6 +29,19 @@ class FireSrc {
     return null;
   }
 
+  //? remove avatar to Storage
+  static Future<bool?> removeFileFromStorage({required String url}) async {
+    try {
+      var ref = _firebaseStorage.refFromURL(url);
+      await ref.delete();
+      return true;
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
+//? upload post
   static Future<bool?> uploadPost(
       {required PostModel? post, required File? imageFile}) async {
     try {
@@ -55,6 +67,21 @@ class FireSrc {
           await _firebaseFirestore.collection('posts').doc(postId).get());
       bool? isPublished = resultPost.postId != null;
       return isPublished;
+    } on FirebaseException catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
+//? upload post
+  static Future<bool?> deletePost({required PostModel? post}) async {
+    try {
+      bool? imageDeleted = await removeFileFromStorage(url: post!.imageUrl!);
+      if (imageDeleted!) {
+        await _firebaseFirestore.collection('posts').doc(post.postId).delete();
+        return true;
+      }
+      return false;
     } on FirebaseException catch (e) {
       log(e.toString());
     }
@@ -143,6 +170,7 @@ class FireSrc {
     return null;
   }
 
+//? get commetnt
   static Future<CommentModel?> getComment({
     String? postId,
   }) async {
@@ -165,6 +193,7 @@ class FireSrc {
     return null;
   }
 
+//? follow User
   static Future<bool?> followUser(
       {required String? followingUserId,
       required String? followedUserId}) async {
@@ -192,7 +221,7 @@ class FireSrc {
         isFollowed = true;
       }
 
-      if (!userFollowed.data()!['followers'].contains(followingUserId)) {
+      if (!userFollowed.data()!['following'].contains(followingUserId)) {
         await _firebaseFirestore
             .collection('users')
             .doc(followedUserId)
@@ -239,10 +268,15 @@ class FireSrc {
           .collection('users')
           .doc(followingUserId)
           .get();
-      final UserModel userFollowingData =
-          UserModel.fromDocumentSnapshot(userFollowing);
+      final userFollowed = await _firebaseFirestore
+          .collection('users')
+          .doc(followedUserId)
+          .get();
 
-      if (userFollowingData.followers!.contains(followedUserId)) {
+      bool? isFollowRemoved = false;
+      bool? isFollowingRemoved = false;
+      log(userFollowing.data()!['followers'].toString());
+      if (userFollowing.data()!['followers'].contains(followedUserId)) {
         await _firebaseFirestore
             .collection('users')
             .doc(followingUserId)
@@ -250,14 +284,20 @@ class FireSrc {
           'followers': FieldValue.arrayRemove([followedUserId])
         });
 
+        isFollowRemoved = true;
+      }
+
+      if (userFollowed.data()!['following'].contains(followingUserId)) {
         await _firebaseFirestore
             .collection('users')
             .doc(followedUserId)
             .update({
           'following': FieldValue.arrayRemove([followingUserId])
         });
-        return true;
+        isFollowingRemoved = true;
       }
+
+      return isFollowingRemoved && isFollowRemoved;
     } on FirebaseException catch (e) {
       log(e.toString());
     }

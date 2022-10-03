@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ import 'package:provider/provider.dart';
 class PostsPage extends StatefulWidget {
   static Widget get show => ChangeNotifierProvider<PostsProvider>(
         create: (_) => PostsProvider(),
+        lazy: false,
         child: const PostsPage(),
       );
   const PostsPage({super.key});
@@ -25,11 +28,14 @@ class PostsPage extends StatefulWidget {
 class _PostsPageState extends State<PostsPage> {
   @override
   void didChangeDependencies() {
+    log('INITTT');
+
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    log('BUILDD');
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(40),
@@ -45,9 +51,11 @@ class _PostsPageState extends State<PostsPage> {
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           elevation: .0,
           actions: [
-            Consumer<PostsProvider>(
-              builder: (context, postValue, _) => IconButton(
-                onPressed: () {},
+            Consumer2<PostsProvider, MainProvider>(
+              builder: (context, postValue, mainValueProvider, _) => IconButton(
+                onPressed: () {
+                  mainValueProvider.changeIndex(2);
+                },
                 icon: Icon(
                   Icons.add_box_outlined,
                   color: Theme.of(context)
@@ -56,18 +64,6 @@ class _PostsPageState extends State<PostsPage> {
                 ),
               ),
             ),
-            Consumer2<PostsProvider, MainProvider>(
-              builder: (context, value, valueMain, child) => IconButton(
-                  onPressed: () {
-                    valueMain.logout(context);
-                  },
-                  icon: Icon(
-                    Icons.logout,
-                    color: Theme.of(context)
-                        .bottomNavigationBarTheme
-                        .selectedItemColor,
-                  )),
-            ),
             SizedBox(
               width: 15.w,
             ),
@@ -75,33 +71,40 @@ class _PostsPageState extends State<PostsPage> {
         ),
       ),
       body: Consumer<PostsProvider>(
-        builder: (context, valuePosts, child) => FirestoreListView(
-          shrinkWrap: true,
-          query: FirebaseFirestore.instance
-              .collection('posts')
-              .orderBy('datePublished', descending: true),
-          itemBuilder: (context, doc) {
-            if (doc.data().isEmpty) {
-              return const Center(
-                child: CupertinoActivityIndicator(),
-              );
-            }
-            if (!doc.exists) {
-              return const Center(
-                child: CupertinoActivityIndicator(),
-              );
-            }
-            PostModel? post = PostModel.fromDocumentSnapshot(doc);
-
-            return PostItem.show(
-              post: post,
-              currentUser: AuthSrc.firebaseAuth.currentUser!.uid,
-              fullCommentLength: post.comments!,
-              addLike: () => valuePosts.addLike(post: post),
-              removeLike: () => valuePosts.removeLike(post: post),
-              liked: FireSrc.isLiked(myPost: post),
-            );
+        builder: (context, valuePosts, child) => RefreshIndicator(
+          backgroundColor: Theme.of(context).backgroundColor,
+          onRefresh: () {
+            setState(() {});
+            return Future.delayed(const Duration(milliseconds: 400));
           },
+          child: FirestoreListView(
+            shrinkWrap: true,
+            query: FirebaseFirestore.instance
+                .collection('posts')
+                .orderBy('datePublished', descending: true),
+            itemBuilder: (context, doc) {
+              if (doc.data().isEmpty) {
+                return const Center(
+                  child: CupertinoActivityIndicator(),
+                );
+              }
+              if (!doc.exists) {
+                return const Center(
+                  child: CupertinoActivityIndicator(),
+                );
+              }
+              PostModel? post = PostModel.fromDocumentSnapshot(doc);
+
+              return PostItem.show(
+                post: post,
+                currentUser: AuthSrc.firebaseAuth.currentUser!.uid,
+                fullCommentLength: post.comments!,
+                addLike: () => valuePosts.addLike(post: post),
+                removeLike: () => valuePosts.removeLike(post: post),
+                liked: FireSrc.isLiked(myPost: post),
+              );
+            },
+          ),
         ),
       ),
     );

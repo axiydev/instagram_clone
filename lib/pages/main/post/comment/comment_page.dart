@@ -77,6 +77,8 @@ class _CommentPageState extends State<CommentPage> {
                     username: _post!.username!,
                     datetime: _post!.datePublished!,
                     imageUrl: _post!.userAvatar!,
+                    onPressed: () => commentProviderValue
+                        .navigateToUserView(context, uid: _post!.userId),
                     text: _post!.description!),
                 FirestoreListView(
                     shrinkWrap: true,
@@ -102,6 +104,8 @@ class _CommentPageState extends State<CommentPage> {
                           CommentModel.fromDocumentSnapshot(document);
 
                       return CustomCardItem(
+                        onPressed: () => commentProviderValue
+                            .navigateToUserView(context, uid: comment.uid),
                         imageUrl: comment.profilePic,
                         text: comment.text,
                         datetime: comment.datePublished,

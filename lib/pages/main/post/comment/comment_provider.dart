@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/models/comment_model.dart';
 import 'package:instagram_clone/services/fire/fire_src.dart';
+import 'package:instagram_clone/utils/app_utils_export.dart';
 
 class CommentProvider with ChangeNotifier {
   final TextEditingController? editingController = TextEditingController();
@@ -21,5 +22,10 @@ class CommentProvider with ChangeNotifier {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  void navigateToUserView(BuildContext context, {required String? uid}) {
+    Navigator.of(context)
+        .pushNamed(AppRoutes.userPageView, arguments: {'uid': uid});
   }
 }
