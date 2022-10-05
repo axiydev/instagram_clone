@@ -159,7 +159,6 @@ class __$$_CommentModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
 @JsonSerializable()
 class _$_CommentModel implements _CommentModel {
   _$_CommentModel(

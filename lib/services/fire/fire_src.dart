@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:instagram_clone/models/comment_model.dart';
 import 'package:instagram_clone/models/post_model.dart';
+import 'package:instagram_clone/models/reaction_model.dart';
 import 'package:instagram_clone/models/user_model.dart';
 import 'package:instagram_clone/services/auth/auth_src.dart';
 import 'package:uuid/uuid.dart';
@@ -73,7 +74,7 @@ class FireSrc {
     return null;
   }
 
-//? upload post
+//? delete post
   static Future<bool?> deletePost({required PostModel? post}) async {
     try {
       bool? imageDeleted = await removeFileFromStorage(url: post!.imageUrl!);
@@ -88,6 +89,7 @@ class FireSrc {
     return null;
   }
 
+//? add like
   static Future<bool?> addLike({required PostModel? myPost}) async {
     try {
       final currentUser = _firebaseAuth.currentUser!.uid;
@@ -100,6 +102,22 @@ class FireSrc {
         _firebaseFirestore.collection('posts').doc(myPost.postId).update({
           'likes': FieldValue.arrayUnion([currentUser]),
         });
+
+        final UserModel? user = await AuthSrc.getCurrentUser;
+        await addReaction(
+            reactionModel: ReactionModel(
+                imageUrl: myPost.imageUrl,
+                myUid: user!.uid,
+                postId: myPost.postId,
+                myAvatarUrl: user.photoAvatarUrl,
+                userId: myPost.userId,
+                reactionId: const Uuid().v1(),
+                storyId: '',
+                myUsername: user.username,
+                storyUrl: '',
+                isFollowed: false,
+                reactionPubplishDate: DateTime.now().toString(),
+                reactionText: ''));
         return true;
       }
       return true;
@@ -122,7 +140,8 @@ class FireSrc {
     return null;
   }
 
-  static Future<bool?> removeLike({required PostModel? myPost}) async {
+  static Future<bool?> removeLike(
+      {required PostModel? myPost, String? reactionId}) async {
     try {
       final currentUser = _firebaseAuth.currentUser!.uid;
       DocumentSnapshot<Map<String, dynamic>> myDocument =
@@ -134,6 +153,7 @@ class FireSrc {
         _firebaseFirestore.collection('posts').doc(myPost.postId).update({
           'likes': FieldValue.arrayRemove([currentUser]),
         });
+        // await removeReaction(postUserId: myPost.userId, reactionId: reactionId);
         return false;
       }
       return false;
@@ -320,6 +340,53 @@ class FireSrc {
       log(e.toString());
     }
     return null;
+  }
+
+//? add reaction
+  static Future<void> addReaction({
+    ReactionModel? reactionModel,
+  }) async {
+    try {
+      return _firebaseFirestore
+          .collection('notifications')
+          .doc(reactionModel!.userId)
+          .collection('reaction')
+          .doc(reactionModel.reactionId)
+          .set(reactionModel.toJson());
+    } on FirebaseException catch (e) {
+      log(e.toString());
+    }
+  }
+
+  static Future<void> removeReaction(
+      {required String? postUserId, required String? reactionId}) async {
+    try {
+      return _firebaseFirestore
+          .collection('notifications')
+          .doc(postUserId)
+          .collection('reaction')
+          .doc(reactionId)
+          .delete();
+    } on FirebaseException catch (e) {
+      log(e.toString());
+    }
+  }
+
+  static Future<ReactionModel?> getReactions(
+      {required String? postUserId, required String? reactionId}) async {
+    try {
+      final document = await _firebaseFirestore
+          .collection('notifications')
+          .doc(postUserId)
+          .collection('reaction')
+          .doc(reactionId)
+          .get();
+      final reaction = ReactionModel.fromDocumentSnapshot(document);
+      return reaction;
+    } on FirebaseException catch (e) {
+      log(e.toString());
+    }
+    return ReactionModel.empty();
   }
 
   static FirebaseFirestore get firebaseFirestore => _firebaseFirestore;

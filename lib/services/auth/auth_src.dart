@@ -106,4 +106,33 @@ class AuthSrc {
     }
     return null;
   }
+
+  //? update user
+  static Future<bool?> updateUser({
+    required File? imageFile,
+    required String? username,
+    required UserModel? updatedUser,
+  }) async {
+    try {
+      UserModel? newUser = updatedUser!.copyWith(
+          photoAvatarUrl:
+              await uploadFileToStorage(fileName: username!, file: imageFile));
+
+      if (newUser.photoAvatarUrl == null) return null;
+      await _firebaseFirestore
+          .collection('users')
+          .doc(updatedUser.uid)
+          .update(newUser.toJson());
+      if (kDebugMode) {
+        print('siz muvofaqqiyatliprofilni yangiladingiz');
+      }
+      return true;
+    } on FirebaseException catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      log(e.toString());
+    }
+    return null;
+  }
 }

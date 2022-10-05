@@ -176,7 +176,6 @@ class __$$_UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
 @JsonSerializable()
 class _$_UserModel implements _UserModel {
   const _$_UserModel(

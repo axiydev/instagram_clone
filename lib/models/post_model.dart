@@ -5,7 +5,6 @@ part 'post_model.g.dart';
 
 @freezed
 class PostModel with _$PostModel {
-  @JsonSerializable()
   factory PostModel({
     String? description,
     String? username,

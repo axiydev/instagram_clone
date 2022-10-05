@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/models/post_model.dart';
 import 'package:instagram_clone/pages/main/main_provider.dart';
-import 'package:instagram_clone/pages/profile/profile/profile_page_provider.dart';
-import 'package:instagram_clone/pages/profile/profile/widget/info_widget.dart';
-import 'package:instagram_clone/pages/profile/profile/widget/story_widget.dart';
+import 'package:instagram_clone/pages/main/profile/profile/profile_page_provider.dart';
+import 'package:instagram_clone/pages/main/profile/profile/widget/info_widget.dart';
+import 'package:instagram_clone/pages/main/profile/profile/widget/story_widget.dart';
 import 'package:instagram_clone/services/auth/auth_src.dart';
 import 'package:instagram_clone/services/fire/fire_src.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
@@ -342,7 +342,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                               fontSize: 13.sp,
                                               fontWeight: FontWeight.w600),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      profileValue.navigateToEdit(context);
+                                    },
                                   ),
                                 ),
                               ),

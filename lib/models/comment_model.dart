@@ -5,7 +5,6 @@ part 'comment_model.g.dart';
 
 @freezed
 class CommentModel with _$CommentModel {
-  @JsonSerializable()
   factory CommentModel({
     String? profilePic,
     String? datePublished,

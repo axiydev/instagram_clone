@@ -195,7 +195,6 @@ class __$$_PostModelCopyWithImpl<$Res> extends _$PostModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
 @JsonSerializable()
 class _$_PostModel implements _PostModel {
   _$_PostModel(

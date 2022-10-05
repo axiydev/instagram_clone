@@ -7,10 +7,12 @@ import 'package:instagram_clone/pages/main/main_page.dart';
 import 'package:instagram_clone/pages/main/post/comment/comment_page.dart';
 import 'package:instagram_clone/pages/main/post/create_post/create_post_page.dart';
 import 'package:instagram_clone/pages/main/post/posts/posts_page.dart';
-import 'package:instagram_clone/pages/profile/profile/profile_page.dart';
-import 'package:instagram_clone/pages/search/search_page.dart';
-import 'package:instagram_clone/pages/search/search_view.dart';
-import 'package:instagram_clone/pages/search/user/user_view.dart';
+import 'package:instagram_clone/pages/main/profile/edit_profile/edit_profile_view.dart';
+import 'package:instagram_clone/pages/main/profile/profile/profile_page.dart';
+import 'package:instagram_clone/pages/main/reaction/reaction_page.dart';
+import 'package:instagram_clone/pages/main/search/search_page.dart';
+import 'package:instagram_clone/pages/main/search/search_view.dart';
+import 'package:instagram_clone/pages/main/search/user/user_view.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
 
 /*
@@ -18,7 +20,6 @@ Created by Axmadjon Isaqov on 18:54:39 20.09.2022
 © 2022 @axi_dev 
 */
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   await AppSetup.setup;
   runApp(const MyApp());
 }
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
+    return ValueListenableBuilder<ThemeMode>(
       valueListenable: AppUtils.themeMode,
       builder: (context, value, child) => ScreenUtilInit(
         designSize: const Size(375, 812),
@@ -45,7 +46,9 @@ class MyApp extends StatelessWidget {
             AppRoutes.searchPage: (_) => SearchPage.show,
             AppRoutes.mainPage: (_) => MainPage.view,
             AppRoutes.profilePage: (_) => ProfilePage.view,
-            AppRoutes.userPageView: (_) => UserPageView.show
+            AppRoutes.userPageView: (_) => UserPageView.show,
+            AppRoutes.reactionView: (_) => ReactionPage.view,
+            AppRoutes.editProfile: (_) => EditProfile.show
           },
           title: 'Flutter Demo',
           themeMode: value,
@@ -55,7 +58,7 @@ class MyApp extends StatelessWidget {
 
           /// dark [theme]
           darkTheme: AppTheme.darkTheme,
-          home: StreamBuilder(
+          home: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

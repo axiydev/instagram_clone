@@ -161,6 +161,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         )),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           AppUtils.themeChanger();

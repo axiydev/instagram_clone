@@ -15,15 +15,15 @@ class MyPainter extends CustomPainter {
       const Offset(0, 1),
       const Offset(1, 0),
       [
-        const Color(0xFFffa95f).withOpacity(.5),
-        const Color(0xFFf99c4a).withOpacity(.15),
-        const Color(0xFFf47838).withOpacity(.3),
-        const Color(0xFFf99c4a).withOpacity(.45),
+        // const Color(0xFFffa95f).withOpacity(.5),
+        // const Color(0xFFf99c4a).withOpacity(.15),
+        // const Color(0xFFf47838).withOpacity(.3),
+        // const Color(0xFFf99c4a).withOpacity(.45),
         const Color(0xFFd92d7a).withOpacity(.7),
         const Color(0xFFcc2a92).withOpacity(.8),
         const Color(0xFFc32e92).withOpacity(.95)
       ],
-      [.3, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+      [1.0, 1.0, 1.0],
     );
     canvas.drawCircle(Offset(16.w, 16.w), 16.w, myPaint);
   }
@@ -51,6 +51,24 @@ class AppUtils {
         ],
       ),
     );
+  }
+
+  static String? getDuration(String? dateTime) {
+    Duration? duration =
+        DateTime.now().difference(DateTime.tryParse(dateTime!)!);
+    int? day = duration.inDays;
+    int? hours = duration.inHours;
+    int? min = duration.inMinutes;
+    int? sec = duration.inSeconds;
+    if (day >= 1) {
+      return ' $day days ago';
+    } else if (hours >= 1) {
+      return ' $hours hours ago';
+    } else if (min >= 1) {
+      return ' $min minutes ago';
+    } else {
+      return ' $sec seconds ago';
+    }
   }
 
 //? theme changer

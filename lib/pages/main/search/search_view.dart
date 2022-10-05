@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:instagram_clone/models/post_model.dart';
-import 'package:instagram_clone/pages/search/search_provider.dart';
+import 'package:instagram_clone/pages/main/search/search_provider.dart';
 import 'package:instagram_clone/services/fire/fire_src.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
 import 'package:provider/provider.dart';

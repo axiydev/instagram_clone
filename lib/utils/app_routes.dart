@@ -9,4 +9,6 @@ class AppRoutes {
   static const searchPage = '/searchPage';
   static const profilePage = '/profilePage';
   static const userPageView = '/user_page_view';
+  static const reactionView = '/reaction_page';
+  static const editProfile = '/edit_profile';
 }
