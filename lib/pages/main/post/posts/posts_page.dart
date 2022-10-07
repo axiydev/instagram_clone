@@ -9,6 +9,7 @@ import 'package:instagram_clone/models/post_model.dart';
 import 'package:instagram_clone/pages/main/main_provider.dart';
 import 'package:instagram_clone/pages/main/post/posts/posts_provider.dart';
 import 'package:instagram_clone/pages/main/post/posts/widget/post_item.dart';
+import 'package:instagram_clone/pages/main/story/story_view.dart';
 import 'package:instagram_clone/services/auth/auth_src.dart';
 import 'package:instagram_clone/services/fire/fire_src.dart';
 import 'package:provider/provider.dart';
@@ -77,33 +78,41 @@ class _PostsPageState extends State<PostsPage> {
             setState(() {});
             return Future.delayed(const Duration(milliseconds: 400));
           },
-          child: FirestoreListView(
-            shrinkWrap: true,
-            query: FirebaseFirestore.instance
-                .collection('posts')
-                .orderBy('datePublished', descending: true),
-            itemBuilder: (context, doc) {
-              if (doc.data().isEmpty) {
-                return const Center(
-                  child: CupertinoActivityIndicator(),
-                );
-              }
-              if (!doc.exists) {
-                return const Center(
-                  child: CupertinoActivityIndicator(),
-                );
-              }
-              PostModel? post = PostModel.fromDocumentSnapshot(doc);
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                StoryView.show,
+                FirestoreListView(
+                  primary: false,
+                  shrinkWrap: true,
+                  query: FirebaseFirestore.instance
+                      .collection('posts')
+                      .orderBy('datePublished', descending: true),
+                  itemBuilder: (context, doc) {
+                    if (doc.data().isEmpty) {
+                      return const Center(
+                        child: CupertinoActivityIndicator(),
+                      );
+                    }
+                    if (!doc.exists) {
+                      return const Center(
+                        child: CupertinoActivityIndicator(),
+                      );
+                    }
+                    PostModel? post = PostModel.fromDocumentSnapshot(doc);
 
-              return PostItem.show(
-                post: post,
-                currentUser: AuthSrc.firebaseAuth.currentUser!.uid,
-                fullCommentLength: post.comments!,
-                addLike: () => valuePosts.addLike(post: post),
-                removeLike: () => valuePosts.removeLike(post: post),
-                liked: FireSrc.isLiked(myPost: post),
-              );
-            },
+                    return PostItem.show(
+                      post: post,
+                      currentUser: AuthSrc.firebaseAuth.currentUser!.uid,
+                      fullCommentLength: post.comments!,
+                      addLike: () => valuePosts.addLike(post: post),
+                      removeLike: () => valuePosts.removeLike(post: post),
+                      liked: FireSrc.isLiked(myPost: post),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

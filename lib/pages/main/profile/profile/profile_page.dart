@@ -354,11 +354,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               //? story
                               SizedBox(
-                                  height: 83.h,
+                                  height: 93.h,
                                   child: ListView.separated(
-                                    padding: EdgeInsets.only(
-                                      left: 11.w,
-                                    ),
+                                    padding:
+                                        EdgeInsets.only(left: 11.w, top: 9.h),
                                     separatorBuilder: (context, index) =>
                                         SizedBox(
                                       width: 18.w,

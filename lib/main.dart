@@ -2,18 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:instagram_clone/pages/auth/auth_export.dart';
-import 'package:instagram_clone/pages/main/main_page.dart';
-import 'package:instagram_clone/pages/main/post/comment/comment_page.dart';
-import 'package:instagram_clone/pages/main/post/create_post/create_post_page.dart';
-import 'package:instagram_clone/pages/main/post/posts/posts_page.dart';
-import 'package:instagram_clone/pages/main/profile/edit_profile/edit_profile_view.dart';
-import 'package:instagram_clone/pages/main/profile/profile/profile_page.dart';
-import 'package:instagram_clone/pages/main/reaction/reaction_page.dart';
-import 'package:instagram_clone/pages/main/search/search_page.dart';
-import 'package:instagram_clone/pages/main/search/search_view.dart';
-import 'package:instagram_clone/pages/main/search/user/user_view.dart';
+import 'package:instagram_clone/pages/auth/auth.dart';
+import 'package:instagram_clone/pages/main/story/create_story/create_story_view.dart';
+import 'package:instagram_clone/pages/main/story/story/detail/view_story_item.dart';
+import 'package:instagram_clone/pages/main/story/story/story_page.dart';
+import 'package:instagram_clone/pages/main/story/story_view.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
+import 'package:instagram_clone/pages/main/main_view.dart';
 
 /*
 Created by Axmadjon Isaqov on 18:54:39 20.09.2022
@@ -48,7 +43,11 @@ class MyApp extends StatelessWidget {
             AppRoutes.profilePage: (_) => ProfilePage.view,
             AppRoutes.userPageView: (_) => UserPageView.show,
             AppRoutes.reactionView: (_) => ReactionPage.view,
-            AppRoutes.editProfile: (_) => EditProfile.show
+            AppRoutes.editProfile: (_) => EditProfile.show,
+            AppRoutes.story: (_) => StoryView.show,
+            AppRoutes.createStory: (_) => CreateStoryView.show,
+            AppRoutes.storyView: (_) => StoryPage.show(),
+            AppRoutes.viewStoryItem: (_) => ViewStoryItem.show()
           },
           title: 'Flutter Demo',
           themeMode: value,

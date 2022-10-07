@@ -11,4 +11,8 @@ class AppRoutes {
   static const userPageView = '/user_page_view';
   static const reactionView = '/reaction_page';
   static const editProfile = '/edit_profile';
+  static const story = '/story';
+  static const createStory = '/createStory';
+  static const storyView = '/storyView';
+  static const viewStoryItem = '/viewStoryItem';
 }

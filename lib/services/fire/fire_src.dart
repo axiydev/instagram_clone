@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:instagram_clone/models/comment_model.dart';
 import 'package:instagram_clone/models/post_model.dart';
 import 'package:instagram_clone/models/reaction_model.dart';
+import 'package:instagram_clone/models/story_model.dart';
 import 'package:instagram_clone/models/user_model.dart';
 import 'package:instagram_clone/services/auth/auth_src.dart';
 import 'package:uuid/uuid.dart';
@@ -17,10 +18,12 @@ class FireSrc {
 
   //? upload avatar to Storage
   static Future<String?> uploadFileToStorage(
-      {required String fileName, required File? file}) async {
+      {required String fileName,
+      required File? file,
+      String? folderName = 'postsImage'}) async {
     try {
       var ref = _firebaseStorage.ref();
-      var newRef = ref.child('postsImage').child(fileName);
+      var newRef = ref.child(folderName!).child(fileName);
       UploadTask? task = newRef.putFile(file!);
       await task;
       return newRef.getDownloadURL();
@@ -190,7 +193,7 @@ class FireSrc {
     return null;
   }
 
-//? get commetnt
+//? get comment
   static Future<CommentModel?> getComment({
     String? postId,
   }) async {
@@ -387,6 +390,41 @@ class FireSrc {
       log(e.toString());
     }
     return ReactionModel.empty();
+  }
+
+//? upload post
+  static Future<bool?> uploadStory(
+      {required StoryModel? story, required File? imageFile}) async {
+    try {
+      String? storyId = const Uuid().v1();
+      UserModel? user = await AuthSrc.getCurrentUser;
+      String? uploadedImageUrl = await uploadFileToStorage(
+          fileName: storyId + imageFile!.path.split('/').last,
+          file: imageFile,
+          folderName: 'storyFolder');
+      StoryModel? newStory = story!.copyWith(
+          storyId: storyId,
+          userId: user!.uid,
+          username: user.username,
+          profileAvatar: user.photoAvatarUrl,
+          likes: [],
+          watchList: [],
+          storyImage: uploadedImageUrl,
+          datePublished: DateTime.now().toString());
+
+      await _firebaseFirestore
+          .collection('stories')
+          .doc(storyId)
+          .set(newStory.toJson());
+      var storyDocument =
+          await _firebaseFirestore.collection('stories').doc(storyId).get();
+      StoryModel? resultStory = StoryModel.fromJson(storyDocument.data()!);
+      bool? isPublished = resultStory.storyId != null;
+      return isPublished;
+    } on FirebaseException catch (e) {
+      log(e.toString());
+    }
+    return null;
   }
 
   static FirebaseFirestore get firebaseFirestore => _firebaseFirestore;
