@@ -1,10 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/models/story_model.dart';
 import 'package:instagram_clone/pages/main/story/story/detail/view_item_provider.dart';
 import 'package:instagram_clone/pages/main/story/story/story_page_provider.dart';
+import 'package:instagram_clone/utils/app_constants.dart';
 import 'package:provider/provider.dart';
+import 'package:story_view/story_view.dart';
 
 // ignore: must_be_immutable
 class ViewStoryItem extends StatefulWidget {
@@ -15,7 +16,7 @@ class ViewStoryItem extends StatefulWidget {
           ChangeNotifierProvider<ViewStoryItemProvider>(
               create: (_) => ViewStoryItemProvider()),
           ChangeNotifierProvider<StoryPageProvider>(
-              create: (_) => StoryPageProvider())
+              create: (_) => StoryPageProvider()),
         ],
         child: ViewStoryItem(
           story: story,
@@ -31,6 +32,7 @@ class ViewStoryItem extends StatefulWidget {
 class _ViewStoryItemState extends State<ViewStoryItem> {
   @override
   void initState() {
+    context.read<ViewStoryItemProvider>().initData(widget.story);
     super.initState();
   }
 
@@ -38,15 +40,36 @@ class _ViewStoryItemState extends State<ViewStoryItem> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer2<ViewStoryItemProvider, StoryPageProvider>(
-          builder: (context, storyItem, storyPage, child) => SafeArea(
+          builder: (context, storyItemValue, storyPage, child) => SafeArea(
                   child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: widget.story!.storyImage!,
+                  StoryImage.url(
+                    widget.story!.storyImage!,
+                    controller: storyPage.storyControllerView,
                     fit: BoxFit.cover,
-                    height: 812.h,
-                    width: 312.w,
+                  ),
+                  Positioned(
+                    left: .0,
+                    right: .0,
+                    top: 15.h,
+                    child: ListTile(
+                      title: Text(
+                        widget.story!.username ?? "user",
+                        style: Theme.of(context).textTheme.displaySmall,
+                      ),
+                      subtitle: Text(widget.story!.description ?? "description",
+                          style: Theme.of(context)
+                              .textTheme
+                              .displaySmall!
+                              .copyWith(fontSize: 12.sp)),
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                          widget.story!.profileAvatar ??
+                              AppConstants.defaultImageUrl,
+                        ),
+                      ),
+                    ),
                   )
                 ],
               ))),

@@ -5,6 +5,7 @@ import 'package:instagram_clone/models/story_model.dart';
 import 'package:instagram_clone/pages/main/profile/profile/widget/story_widget.dart';
 import 'package:instagram_clone/pages/main/story/story/story_page.dart';
 import 'package:instagram_clone/pages/main/story/story_view_provider.dart';
+import 'package:instagram_clone/services/auth/auth_src.dart';
 import 'package:instagram_clone/services/fire/fire_src.dart';
 import 'package:instagram_clone/utils/page_route_custom.dart';
 import 'package:provider/provider.dart';
@@ -58,8 +59,17 @@ class _StoryViewState extends State<StoryView> {
                         child: CupertinoActivityIndicator(),
                       );
                     }
+
                     var jsonData = snapshot.data();
+
                     StoryModel? story = StoryModel.fromJson(jsonData);
+                    if (story.watchList!
+                        .contains(AuthSrc.firebaseAuth.currentUser!.uid)) {
+                      return const SizedBox.shrink();
+                    }
+                    if (story.userId == AuthSrc.firebaseAuth.currentUser!.uid) {
+                      return const SizedBox.shrink();
+                    }
                     return StoryWidget(
                       imageUrl: story.storyImage!,
                       onPressed: () {

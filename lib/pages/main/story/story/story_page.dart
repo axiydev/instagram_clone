@@ -5,8 +5,10 @@ import 'package:instagram_clone/models/story_model.dart';
 import 'package:instagram_clone/pages/main/story/story/detail/view_story_item.dart';
 import 'package:instagram_clone/pages/main/story/story/story_page_provider.dart';
 import 'package:instagram_clone/pages/main/story/story_view_provider.dart';
+import 'package:instagram_clone/services/auth/auth_src.dart';
 import 'package:instagram_clone/services/fire/fire_src.dart';
 import 'package:provider/provider.dart';
+import 'package:story_view/story_view.dart' as sw;
 
 class StoryPage extends StatefulWidget {
   final String? storyId;
@@ -42,17 +44,16 @@ class _StoryPageState extends State<StoryPage> {
             return FirestoreQueryBuilder(
                 query: FireSrc.firebaseFirestore
                     .collection('stories')
-                    .orderBy('datePublished', descending: true),
+                    .where('storyId', isGreaterThanOrEqualTo: widget.storyId)
+                    .orderBy('storyId', descending: false),
                 builder: (context, snapshot, _) {
                   return PageView.builder(
                       controller: storyPageProvider.pageController,
                       itemCount: snapshot.docs.length,
+                      scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        // obtain more items
                         if (snapshot.hasMore &&
                             index + 1 == snapshot.docs.length) {
-                          // Tell FirestoreQueryBuilder to try to obtain more items.
-                          // It is safe to call this function from within the build method.
                           snapshot.fetchMore();
                         }
                         if (snapshot.hasError) {
@@ -68,7 +69,28 @@ class _StoryPageState extends State<StoryPage> {
                         final StoryModel story =
                             StoryModel.fromJson(snapshot.docs[index].data());
 
-                        return ViewStoryItem.show(story: story, index: index);
+                        return sw.StoryView(
+                          storyItems: [
+                            sw.StoryItem(
+                                ViewStoryItem.show(story: story, index: index),
+                                duration: const Duration(seconds: 5))
+                          ],
+                          controller: storyPageProvider.storyControllerView,
+                          onComplete: () async {
+                            if (index + 1 != snapshot.docs.length) {
+                              storyPageProvider.pageController!.animateToPage(
+                                  index + 1,
+                                  duration: const Duration(milliseconds: 400),
+                                  curve: Curves.easeIn);
+                            }
+                            storyPageProvider.addWatcherToList(
+                                storyId: widget.storyId,
+                                currentUserId:
+                                    AuthSrc.firebaseAuth.currentUser!.uid);
+                          },
+                          onStoryShow: (value) {},
+                          onVerticalSwipeComplete: (value) {},
+                        );
                       });
                 });
           },

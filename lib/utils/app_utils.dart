@@ -12,19 +12,19 @@ class MyPainter extends CustomPainter {
     myPaint.style = PaintingStyle.stroke;
     myPaint.strokeWidth = 2.5.w;
     myPaint.shader = ui.Gradient.linear(
-      const Offset(0, 1),
-      const Offset(1, 0),
-      [
-        // const Color(0xFFffa95f).withOpacity(.5),
-        // const Color(0xFFf99c4a).withOpacity(.15),
-        // const Color(0xFFf47838).withOpacity(.3),
-        // const Color(0xFFf99c4a).withOpacity(.45),
-        const Color(0xFFd92d7a).withOpacity(.7),
-        const Color(0xFFcc2a92).withOpacity(.8),
-        const Color(0xFFc32e92).withOpacity(.95)
-      ],
-      [1.0, 1.0, 1.0],
-    );
+        const Offset(0, 1),
+        const Offset(1, 0),
+        [
+          const Color(0xFFFBAA47),
+          const Color(0xFFD91A46),
+          const Color(0xFFA60F93)
+        ],
+        [
+          1,
+          1,
+          1,
+        ],
+        TileMode.clamp);
     canvas.drawCircle(Offset(16.w, 16.w), 16.w, myPaint);
   }
 

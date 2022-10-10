@@ -5,13 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/services/auth/auth_src.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
+import 'package:provider/provider.dart';
 
 abstract class SignUpProviderRepository {
   void onInit();
   void onDispose();
 }
 
-class SignUpProvider extends SignUpProviderRepository with ChangeNotifier {
+class SignUpProvider extends SignUpProviderRepository
+    with ChangeNotifier, ReassembleHandler {
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -91,4 +93,9 @@ class SignUpProvider extends SignUpProviderRepository with ChangeNotifier {
 
   @override
   void onInit() {}
+
+  @override
+  void reassemble() {
+    log('HOTT RELOADED');
+  }
 }

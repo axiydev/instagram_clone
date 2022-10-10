@@ -427,5 +427,16 @@ class FireSrc {
     return null;
   }
 
+  static Future<void> addWatcher(
+      {required String? currentUserId, required String? storyId}) async {
+    try {
+      return _firebaseFirestore.collection('stories').doc(storyId).update({
+        'watchList': FieldValue.arrayUnion([currentUserId])
+      });
+    } on FirebaseException catch (e) {
+      log(e.toString());
+    }
+  }
+
   static FirebaseFirestore get firebaseFirestore => _firebaseFirestore;
 }

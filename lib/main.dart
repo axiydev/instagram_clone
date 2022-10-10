@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone/di/locator/locator.dart';
 import 'package:instagram_clone/pages/auth/auth.dart';
 import 'package:instagram_clone/pages/main/story/create_story/create_story_view.dart';
 import 'package:instagram_clone/pages/main/story/story/detail/view_story_item.dart';
@@ -16,6 +17,7 @@ Created by Axmadjon Isaqov on 18:54:39 20.09.2022
 */
 void main() async {
   await AppSetup.setup;
+  setup;
   runApp(const MyApp());
 }
 
