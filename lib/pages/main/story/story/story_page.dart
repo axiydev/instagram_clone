@@ -46,15 +46,37 @@ class _StoryPageState extends State<StoryPage> {
                     .collection('stories')
                     .where('storyId', isGreaterThanOrEqualTo: widget.storyId)
                     .orderBy('storyId', descending: false),
+                pageSize: 20,
                 builder: (context, snapshot, _) {
+                  if (snapshot.hasError) {
+                    return const Center(
+                      child: CupertinoActivityIndicator(),
+                    );
+                  }
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CupertinoActivityIndicator(),
+                    );
+                  }
+                  List<Map<String, dynamic>>? filterList = [];
+                  filterList.addAll(snapshot.docs.map((e) => e.data()));
+
+                  filterList = filterList
+                      .where((element) =>
+                          !((element['watchList'] as List).contains(
+                              AuthSrc.firebaseAuth.currentUser!.uid)) &&
+                          element['userId'] !=
+                              AuthSrc.firebaseAuth.currentUser!.uid)
+                      .toList();
+
                   return PageView.builder(
                       controller: storyPageProvider.pageController,
-                      itemCount: snapshot.docs.length,
+                      itemCount: filterList.length,
                       onPageChanged: (value) {},
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         if (snapshot.hasMore &&
-                            index + 1 == snapshot.docs.length) {
+                            index + 1 == filterList!.length) {
                           snapshot.fetchMore();
                         }
                         if (snapshot.hasError) {
@@ -68,7 +90,7 @@ class _StoryPageState extends State<StoryPage> {
                           );
                         }
                         final StoryModel story =
-                            StoryModel.fromJson(snapshot.docs[index].data());
+                            StoryModel.fromJson(filterList![index]);
 
                         return sw.StoryView(
                           storyItems: [
