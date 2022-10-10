@@ -8,5 +8,7 @@ class AppSetup {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    // AppNotificationSrc.setup;
+    // setup;
   }
 }

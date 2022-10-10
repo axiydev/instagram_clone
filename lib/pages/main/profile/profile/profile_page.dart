@@ -7,7 +7,6 @@ import 'package:instagram_clone/models/post_model.dart';
 import 'package:instagram_clone/pages/main/main_provider.dart';
 import 'package:instagram_clone/pages/main/profile/profile/profile_page_provider.dart';
 import 'package:instagram_clone/pages/main/profile/profile/widget/info_widget.dart';
-import 'package:instagram_clone/pages/main/profile/profile/widget/story_widget.dart';
 import 'package:instagram_clone/services/auth/auth_src.dart';
 import 'package:instagram_clone/services/fire/fire_src.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
@@ -352,27 +351,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               SizedBox(
                                 height: 16.h,
                               ),
-                              //? story
-                              SizedBox(
-                                  height: 93.h,
-                                  child: ListView.separated(
-                                    padding:
-                                        EdgeInsets.only(left: 11.w, top: 9.h),
-                                    separatorBuilder: (context, index) =>
-                                        SizedBox(
-                                      width: 18.w,
-                                    ),
-                                    itemCount: 10,
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) =>
-                                        StoryWidget(
-                                      imageUrl: AppConstants.defaultImageUrl,
-                                      onPressed: () {},
-                                      title: 'Sport',
-                                      isAddWidget: index == 0,
-                                    ),
-                                  )),
 
                               //? tab bar
                               PreferredSize(
