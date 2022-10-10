@@ -50,6 +50,7 @@ class _StoryPageState extends State<StoryPage> {
                   return PageView.builder(
                       controller: storyPageProvider.pageController,
                       itemCount: snapshot.docs.length,
+                      onPageChanged: (value) {},
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         if (snapshot.hasMore &&

@@ -1,5 +1,7 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/di/locator/locator.dart';
@@ -18,7 +20,8 @@ Created by Axmadjon Isaqov on 18:54:39 20.09.2022
 void main() async {
   await AppSetup.setup;
   setup;
-  runApp(const MyApp());
+  runApp(DevicePreview(
+      enabled: !kReleaseMode, builder: (context) => const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -33,6 +36,9 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (context, child) => MaterialApp(
           debugShowCheckedModeBanner: false,
+          locale: DevicePreview.locale(context),
+          useInheritedMediaQuery: true,
+          builder: DevicePreview.appBuilder,
           routes: {
             AppRoutes.signIn: (_) => SignInPage.view,
             AppRoutes.createPost: (_) => CreatePost.show,
