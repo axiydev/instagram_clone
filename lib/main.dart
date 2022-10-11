@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +12,7 @@ import 'package:instagram_clone/pages/main/story/create_story/create_story_view.
 import 'package:instagram_clone/pages/main/story/story/detail/view_story_item.dart';
 import 'package:instagram_clone/pages/main/story/story/story_page.dart';
 import 'package:instagram_clone/pages/main/story/story_view.dart';
+import 'package:instagram_clone/services/notification/notification_src.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
 import 'package:instagram_clone/pages/main/main_view.dart';
 
@@ -16,8 +20,13 @@ import 'package:instagram_clone/pages/main/main_view.dart';
 Created by Axmadjon Isaqov on 18:54:39 20.09.2022
 © 2022 @axi_dev 
 */
+
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await AppSetup.setup;
+  final notoficationSrc = AppNotificationSrc();
+  FirebaseMessaging.onBackgroundMessage(
+      AppNotificationSrc.backgroudServiceNotification);
   runApp(DevicePreview(
       enabled: !kReleaseMode, builder: (context) => const MyApp()));
 }
