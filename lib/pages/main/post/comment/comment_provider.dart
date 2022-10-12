@@ -10,7 +10,7 @@ class CommentProvider with ChangeNotifier {
   void addPost(
       {required String? postId,
       required CommentModel? myComment,
-      required String? fcm}) async {
+      required String fcm}) async {
     try {
       if (editingController!.text.isEmpty) return;
       CommentModel newCommentMod =

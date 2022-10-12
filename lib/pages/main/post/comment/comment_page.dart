@@ -148,7 +148,7 @@ class _CommentPageState extends State<CommentPage> {
                       commentProviderValue.addPost(
                           postId: _post!.postId,
                           myComment: myComment,
-                          fcm: _post!.fcmToken);
+                          fcm: _post!.fcmToken!);
                       FocusScope.of(context).unfocus();
                     },
                     child: const Text('Post'),
