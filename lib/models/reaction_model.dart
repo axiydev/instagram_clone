@@ -12,6 +12,7 @@ class ReactionModel with _$ReactionModel {
     @JsonKey(name: 'reactionId') String? reactionId,
     @JsonKey(name: 'myUid') String? myUid,
     @JsonKey(name: 'userId') String? userId,
+    @JsonKey(name: 'fcmToken') String? fcmToken,
     @JsonKey(name: 'myAvatarUrl') String? myAvatarUrl,
     @JsonKey(name: 'reactionPubplishDate') String? reactionPubplishDate,
     @JsonKey(name: 'reactionText') String? reactionText,
@@ -41,6 +42,7 @@ class ReactionModel with _$ReactionModel {
       reactionText: data['reactionText'],
       isFollowed: data['isFollowed'],
       storyUrl: data['storyUrl'],
+      fcmToken: data['fcmToken'],
       storyId: data['storyId'],
     );
   }

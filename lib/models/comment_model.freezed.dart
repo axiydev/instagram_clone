@@ -25,6 +25,7 @@ mixin _$CommentModel {
   String? get uid => throw _privateConstructorUsedError;
   String? get text => throw _privateConstructorUsedError;
   String? get commentId => throw _privateConstructorUsedError;
+  String? get fcmToken => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,6 +45,7 @@ abstract class $CommentModelCopyWith<$Res> {
       String? uid,
       String? text,
       String? commentId,
+      String? fcmToken,
       String? username});
 }
 
@@ -62,6 +64,7 @@ class _$CommentModelCopyWithImpl<$Res> implements $CommentModelCopyWith<$Res> {
     Object? uid = freezed,
     Object? text = freezed,
     Object? commentId = freezed,
+    Object? fcmToken = freezed,
     Object? username = freezed,
   }) {
     return _then(_value.copyWith(
@@ -85,6 +88,10 @@ class _$CommentModelCopyWithImpl<$Res> implements $CommentModelCopyWith<$Res> {
           ? _value.commentId
           : commentId // ignore: cast_nullable_to_non_nullable
               as String?,
+      fcmToken: fcmToken == freezed
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
+              as String?,
       username: username == freezed
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -106,6 +113,7 @@ abstract class _$$_CommentModelCopyWith<$Res>
       String? uid,
       String? text,
       String? commentId,
+      String? fcmToken,
       String? username});
 }
 
@@ -127,6 +135,7 @@ class __$$_CommentModelCopyWithImpl<$Res>
     Object? uid = freezed,
     Object? text = freezed,
     Object? commentId = freezed,
+    Object? fcmToken = freezed,
     Object? username = freezed,
   }) {
     return _then(_$_CommentModel(
@@ -150,6 +159,10 @@ class __$$_CommentModelCopyWithImpl<$Res>
           ? _value.commentId
           : commentId // ignore: cast_nullable_to_non_nullable
               as String?,
+      fcmToken: fcmToken == freezed
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
+              as String?,
       username: username == freezed
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -167,6 +180,7 @@ class _$_CommentModel implements _CommentModel {
       this.uid,
       this.text,
       this.commentId,
+      this.fcmToken,
       this.username});
 
   factory _$_CommentModel.fromJson(Map<String, dynamic> json) =>
@@ -183,11 +197,13 @@ class _$_CommentModel implements _CommentModel {
   @override
   final String? commentId;
   @override
+  final String? fcmToken;
+  @override
   final String? username;
 
   @override
   String toString() {
-    return 'CommentModel(profilePic: $profilePic, datePublished: $datePublished, uid: $uid, text: $text, commentId: $commentId, username: $username)';
+    return 'CommentModel(profilePic: $profilePic, datePublished: $datePublished, uid: $uid, text: $text, commentId: $commentId, fcmToken: $fcmToken, username: $username)';
   }
 
   @override
@@ -202,6 +218,7 @@ class _$_CommentModel implements _CommentModel {
             const DeepCollectionEquality().equals(other.uid, uid) &&
             const DeepCollectionEquality().equals(other.text, text) &&
             const DeepCollectionEquality().equals(other.commentId, commentId) &&
+            const DeepCollectionEquality().equals(other.fcmToken, fcmToken) &&
             const DeepCollectionEquality().equals(other.username, username));
   }
 
@@ -214,6 +231,7 @@ class _$_CommentModel implements _CommentModel {
       const DeepCollectionEquality().hash(uid),
       const DeepCollectionEquality().hash(text),
       const DeepCollectionEquality().hash(commentId),
+      const DeepCollectionEquality().hash(fcmToken),
       const DeepCollectionEquality().hash(username));
 
   @JsonKey(ignore: true)
@@ -236,6 +254,7 @@ abstract class _CommentModel implements CommentModel {
       final String? uid,
       final String? text,
       final String? commentId,
+      final String? fcmToken,
       final String? username}) = _$_CommentModel;
 
   factory _CommentModel.fromJson(Map<String, dynamic> json) =
@@ -251,6 +270,8 @@ abstract class _CommentModel implements CommentModel {
   String? get text;
   @override
   String? get commentId;
+  @override
+  String? get fcmToken;
   @override
   String? get username;
   @override

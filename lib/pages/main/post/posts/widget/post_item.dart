@@ -85,7 +85,7 @@ class _PostItemState extends State<PostItem> {
                   EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
               title: InkWell(
                 onTap: () => postItemProvider.onPostTilePressed(context,
-                    uid: widget.post!.userId),
+                    uid: widget.post!.userId, fcm: widget.post!.fcmToken!),
                 child: Text(
                   widget.post!.username ?? "user",
                   style: Theme.of(context).textTheme.displaySmall,
@@ -158,7 +158,8 @@ class _PostItemState extends State<PostItem> {
                             height: 28.h,
                             child: CupertinoButton(
                               onPressed: () => postItemProvider.follow(
-                                  followingUserId: widget.post!.userId),
+                                  followingUserId: widget.post!.userId,
+                                  fcm: widget.post!.fcmToken),
                               padding: EdgeInsets.zero,
                               color: const Color(0xFF3797EF),
                               child: Text(

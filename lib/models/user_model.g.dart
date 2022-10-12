@@ -14,6 +14,7 @@ _$_UserModel _$$_UserModelFromJson(Map<String, dynamic> json) => _$_UserModel(
       followers: json['followers'] as List<dynamic>?,
       following: json['following'] as List<dynamic>?,
       photoAvatarUrl: json['photoAvatarUrl'] as String?,
+      fcmToken: json['fcmToken'] as String?,
     );
 
 Map<String, dynamic> _$$_UserModelToJson(_$_UserModel instance) =>
@@ -25,4 +26,5 @@ Map<String, dynamic> _$$_UserModelToJson(_$_UserModel instance) =>
       'followers': instance.followers,
       'following': instance.following,
       'photoAvatarUrl': instance.photoAvatarUrl,
+      'fcmToken': instance.fcmToken,
     };

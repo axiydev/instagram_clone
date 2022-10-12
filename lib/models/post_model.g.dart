@@ -15,6 +15,7 @@ _$_PostModel _$$_PostModelFromJson(Map<String, dynamic> json) => _$_PostModel(
       comments: json['comments'] as int?,
       imageUrl: json['imageUrl'] as String?,
       postId: json['postId'] as String?,
+      fcmToken: json['fcmToken'] as String?,
       userId: json['userId'] as String?,
     );
 
@@ -28,5 +29,6 @@ Map<String, dynamic> _$$_PostModelToJson(_$_PostModel instance) =>
       'comments': instance.comments,
       'imageUrl': instance.imageUrl,
       'postId': instance.postId,
+      'fcmToken': instance.fcmToken,
       'userId': instance.userId,
     };

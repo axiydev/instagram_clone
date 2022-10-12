@@ -107,7 +107,10 @@ class _SearchPageState extends State<SearchPage> {
                     user: userModel,
                     onPress: () {
                       Navigator.of(context).pushNamed(AppRoutes.userPageView,
-                          arguments: {'uid': userModel.uid});
+                          arguments: {
+                            'uid': userModel.uid,
+                            'fcm': userModel.fcmToken
+                          });
                     },
                   );
                 });

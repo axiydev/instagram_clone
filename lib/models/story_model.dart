@@ -11,6 +11,7 @@ class StoryModel with _$StoryModel {
     String? description,
     String? profileAvatar,
     List? likes,
+    String? fcmToken,
     List? watchList,
     String? username,
     String? storyId,

@@ -34,6 +34,8 @@ mixin _$UserModel {
   List<dynamic>? get following => throw _privateConstructorUsedError;
   @JsonKey(name: 'photoAvatarUrl')
   String? get photoAvatarUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'fcmToken')
+  String? get fcmToken => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -52,7 +54,8 @@ abstract class $UserModelCopyWith<$Res> {
       @JsonKey(name: "bio") String? bio,
       @JsonKey(name: "followers") List<dynamic>? followers,
       @JsonKey(name: "following") List<dynamic>? following,
-      @JsonKey(name: 'photoAvatarUrl') String? photoAvatarUrl});
+      @JsonKey(name: 'photoAvatarUrl') String? photoAvatarUrl,
+      @JsonKey(name: 'fcmToken') String? fcmToken});
 }
 
 /// @nodoc
@@ -72,6 +75,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
     Object? followers = freezed,
     Object? following = freezed,
     Object? photoAvatarUrl = freezed,
+    Object? fcmToken = freezed,
   }) {
     return _then(_value.copyWith(
       username: username == freezed
@@ -102,6 +106,10 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
           ? _value.photoAvatarUrl
           : photoAvatarUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      fcmToken: fcmToken == freezed
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -119,7 +127,8 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       @JsonKey(name: "bio") String? bio,
       @JsonKey(name: "followers") List<dynamic>? followers,
       @JsonKey(name: "following") List<dynamic>? following,
-      @JsonKey(name: 'photoAvatarUrl') String? photoAvatarUrl});
+      @JsonKey(name: 'photoAvatarUrl') String? photoAvatarUrl,
+      @JsonKey(name: 'fcmToken') String? fcmToken});
 }
 
 /// @nodoc
@@ -141,6 +150,7 @@ class __$$_UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
     Object? followers = freezed,
     Object? following = freezed,
     Object? photoAvatarUrl = freezed,
+    Object? fcmToken = freezed,
   }) {
     return _then(_$_UserModel(
       username: username == freezed
@@ -171,6 +181,10 @@ class __$$_UserModelCopyWithImpl<$Res> extends _$UserModelCopyWithImpl<$Res>
           ? _value.photoAvatarUrl
           : photoAvatarUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      fcmToken: fcmToken == freezed
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -185,7 +199,8 @@ class _$_UserModel implements _UserModel {
       @JsonKey(name: "bio") this.bio,
       @JsonKey(name: "followers") final List<dynamic>? followers,
       @JsonKey(name: "following") final List<dynamic>? following,
-      @JsonKey(name: 'photoAvatarUrl') this.photoAvatarUrl})
+      @JsonKey(name: 'photoAvatarUrl') this.photoAvatarUrl,
+      @JsonKey(name: 'fcmToken') this.fcmToken})
       : _followers = followers,
         _following = following;
 
@@ -227,10 +242,13 @@ class _$_UserModel implements _UserModel {
   @override
   @JsonKey(name: 'photoAvatarUrl')
   final String? photoAvatarUrl;
+  @override
+  @JsonKey(name: 'fcmToken')
+  final String? fcmToken;
 
   @override
   String toString() {
-    return 'UserModel(username: $username, uid: $uid, email: $email, bio: $bio, followers: $followers, following: $following, photoAvatarUrl: $photoAvatarUrl)';
+    return 'UserModel(username: $username, uid: $uid, email: $email, bio: $bio, followers: $followers, following: $following, photoAvatarUrl: $photoAvatarUrl, fcmToken: $fcmToken)';
   }
 
   @override
@@ -247,7 +265,8 @@ class _$_UserModel implements _UserModel {
             const DeepCollectionEquality()
                 .equals(other._following, _following) &&
             const DeepCollectionEquality()
-                .equals(other.photoAvatarUrl, photoAvatarUrl));
+                .equals(other.photoAvatarUrl, photoAvatarUrl) &&
+            const DeepCollectionEquality().equals(other.fcmToken, fcmToken));
   }
 
   @JsonKey(ignore: true)
@@ -260,7 +279,8 @@ class _$_UserModel implements _UserModel {
       const DeepCollectionEquality().hash(bio),
       const DeepCollectionEquality().hash(_followers),
       const DeepCollectionEquality().hash(_following),
-      const DeepCollectionEquality().hash(photoAvatarUrl));
+      const DeepCollectionEquality().hash(photoAvatarUrl),
+      const DeepCollectionEquality().hash(fcmToken));
 
   @JsonKey(ignore: true)
   @override
@@ -277,14 +297,14 @@ class _$_UserModel implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
-          {@JsonKey(name: "username") final String? username,
-          @JsonKey(name: "uid") final String? uid,
-          @JsonKey(name: "email") final String? email,
-          @JsonKey(name: "bio") final String? bio,
-          @JsonKey(name: "followers") final List<dynamic>? followers,
-          @JsonKey(name: "following") final List<dynamic>? following,
-          @JsonKey(name: 'photoAvatarUrl') final String? photoAvatarUrl}) =
-      _$_UserModel;
+      {@JsonKey(name: "username") final String? username,
+      @JsonKey(name: "uid") final String? uid,
+      @JsonKey(name: "email") final String? email,
+      @JsonKey(name: "bio") final String? bio,
+      @JsonKey(name: "followers") final List<dynamic>? followers,
+      @JsonKey(name: "following") final List<dynamic>? following,
+      @JsonKey(name: 'photoAvatarUrl') final String? photoAvatarUrl,
+      @JsonKey(name: 'fcmToken') final String? fcmToken}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
@@ -310,6 +330,9 @@ abstract class _UserModel implements UserModel {
   @override
   @JsonKey(name: 'photoAvatarUrl')
   String? get photoAvatarUrl;
+  @override
+  @JsonKey(name: 'fcmToken')
+  String? get fcmToken;
   @override
   @JsonKey(ignore: true)
   _$$_UserModelCopyWith<_$_UserModel> get copyWith =>

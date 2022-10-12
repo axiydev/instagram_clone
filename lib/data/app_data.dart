@@ -11,3 +11,5 @@ final List pageList = [
   ReactionPage.view,
   ProfilePage.view,
 ];
+
+String? userNotificationToken = '';

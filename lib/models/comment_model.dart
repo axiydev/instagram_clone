@@ -11,6 +11,7 @@ class CommentModel with _$CommentModel {
     String? uid,
     String? text,
     String? commentId,
+    String? fcmToken,
     String? username,
   }) = _CommentModel;
 

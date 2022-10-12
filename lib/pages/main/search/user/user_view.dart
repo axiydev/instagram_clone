@@ -33,13 +33,15 @@ class UserPageView extends StatefulWidget {
 
 class _UserPageViewState extends State<UserPageView> {
   late String? userId;
+  late String? fcm;
   @override
   void didChangeDependencies() {
     context.read<UserViewProvider>().onChangeScroll();
     final Map<String, dynamic> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    if (args.containsKey('uid') && args['uid'] != null) {
+    if (args.containsKey('uid') && args['uid'] != null && args['fcm'] != null) {
       userId = args['uid'];
+      fcm = args['fcm'];
       log(args['uid']);
       context.read<MainProvider>().getUser(uid: args['uid']);
       log(context.read<MainProvider>().selectedUser.toString());
@@ -382,7 +384,8 @@ class _UserPageViewState extends State<UserPageView> {
                                         ),
                                         onPressed: () async {
                                           userValue.follow(
-                                              followingUserId: userId);
+                                              followingUserId: userId,
+                                              followingFcm: fcm);
                                         },
                                       ),
                                     ),

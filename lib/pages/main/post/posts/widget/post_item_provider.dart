@@ -33,11 +33,12 @@ class PostItemProvider with ChangeNotifier {
     }
   }
 
-  void follow({required String? followingUserId}) async {
+  void follow({required String? followingUserId, required String? fcm}) async {
     try {
       bool? followed = await FireSrc.followUser(
           followingUserId: followingUserId,
-          followedUserId: AuthSrc.firebaseAuth.currentUser!.uid);
+          followedUserId: AuthSrc.firebaseAuth.currentUser!.uid,
+          followingFcm: fcm);
       if (followed!) {
         log('Follow boldi');
         notifyListeners();
@@ -51,9 +52,10 @@ class PostItemProvider with ChangeNotifier {
     }
   }
 
-  void onPostTilePressed(BuildContext context, {required String? uid}) {
+  void onPostTilePressed(BuildContext context,
+      {required String? uid, required String fcm}) {
     Navigator.of(context)
-        .pushNamed(AppRoutes.userPageView, arguments: {'uid': uid});
+        .pushNamed(AppRoutes.userPageView, arguments: {'uid': uid, 'fcm': fcm});
   }
 
   bool? get isFollowed => _isFollowed;

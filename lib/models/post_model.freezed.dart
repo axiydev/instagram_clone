@@ -28,6 +28,7 @@ mixin _$PostModel {
   int? get comments => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
   String? get postId => throw _privateConstructorUsedError;
+  String? get fcmToken => throw _privateConstructorUsedError;
   String? get userId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $PostModelCopyWith<$Res> {
       int? comments,
       String? imageUrl,
       String? postId,
+      String? fcmToken,
       String? userId});
 }
 
@@ -70,6 +72,7 @@ class _$PostModelCopyWithImpl<$Res> implements $PostModelCopyWith<$Res> {
     Object? comments = freezed,
     Object? imageUrl = freezed,
     Object? postId = freezed,
+    Object? fcmToken = freezed,
     Object? userId = freezed,
   }) {
     return _then(_value.copyWith(
@@ -105,6 +108,10 @@ class _$PostModelCopyWithImpl<$Res> implements $PostModelCopyWith<$Res> {
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
               as String?,
+      fcmToken: fcmToken == freezed
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
+              as String?,
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -128,6 +135,7 @@ abstract class _$$_PostModelCopyWith<$Res> implements $PostModelCopyWith<$Res> {
       int? comments,
       String? imageUrl,
       String? postId,
+      String? fcmToken,
       String? userId});
 }
 
@@ -151,6 +159,7 @@ class __$$_PostModelCopyWithImpl<$Res> extends _$PostModelCopyWithImpl<$Res>
     Object? comments = freezed,
     Object? imageUrl = freezed,
     Object? postId = freezed,
+    Object? fcmToken = freezed,
     Object? userId = freezed,
   }) {
     return _then(_$_PostModel(
@@ -186,6 +195,10 @@ class __$$_PostModelCopyWithImpl<$Res> extends _$PostModelCopyWithImpl<$Res>
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
               as String?,
+      fcmToken: fcmToken == freezed
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
+              as String?,
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -206,6 +219,7 @@ class _$_PostModel implements _PostModel {
       this.comments,
       this.imageUrl,
       this.postId,
+      this.fcmToken,
       this.userId})
       : _likes = likes;
 
@@ -236,11 +250,13 @@ class _$_PostModel implements _PostModel {
   @override
   final String? postId;
   @override
+  final String? fcmToken;
+  @override
   final String? userId;
 
   @override
   String toString() {
-    return 'PostModel(description: $description, username: $username, userAvatar: $userAvatar, datePublished: $datePublished, likes: $likes, comments: $comments, imageUrl: $imageUrl, postId: $postId, userId: $userId)';
+    return 'PostModel(description: $description, username: $username, userAvatar: $userAvatar, datePublished: $datePublished, likes: $likes, comments: $comments, imageUrl: $imageUrl, postId: $postId, fcmToken: $fcmToken, userId: $userId)';
   }
 
   @override
@@ -259,6 +275,7 @@ class _$_PostModel implements _PostModel {
             const DeepCollectionEquality().equals(other.comments, comments) &&
             const DeepCollectionEquality().equals(other.imageUrl, imageUrl) &&
             const DeepCollectionEquality().equals(other.postId, postId) &&
+            const DeepCollectionEquality().equals(other.fcmToken, fcmToken) &&
             const DeepCollectionEquality().equals(other.userId, userId));
   }
 
@@ -274,6 +291,7 @@ class _$_PostModel implements _PostModel {
       const DeepCollectionEquality().hash(comments),
       const DeepCollectionEquality().hash(imageUrl),
       const DeepCollectionEquality().hash(postId),
+      const DeepCollectionEquality().hash(fcmToken),
       const DeepCollectionEquality().hash(userId));
 
   @JsonKey(ignore: true)
@@ -299,6 +317,7 @@ abstract class _PostModel implements PostModel {
       final int? comments,
       final String? imageUrl,
       final String? postId,
+      final String? fcmToken,
       final String? userId}) = _$_PostModel;
 
   factory _PostModel.fromJson(Map<String, dynamic> json) =
@@ -320,6 +339,8 @@ abstract class _PostModel implements PostModel {
   String? get imageUrl;
   @override
   String? get postId;
+  @override
+  String? get fcmToken;
   @override
   String? get userId;
   @override

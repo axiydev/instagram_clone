@@ -25,11 +25,13 @@ class UserViewProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void follow({required String? followingUserId}) async {
+  void follow(
+      {required String? followingUserId, required String? followingFcm}) async {
     try {
       bool? followed = await FireSrc.followUser(
           followingUserId: followingUserId,
-          followedUserId: AuthSrc.firebaseAuth.currentUser!.uid);
+          followedUserId: AuthSrc.firebaseAuth.currentUser!.uid,
+          followingFcm: followingFcm);
       if (followed!) {
         log('Follow boldi');
         notifyListeners();

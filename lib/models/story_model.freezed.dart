@@ -26,6 +26,7 @@ mixin _$StoryModel {
   String? get description => throw _privateConstructorUsedError;
   String? get profileAvatar => throw _privateConstructorUsedError;
   List<dynamic>? get likes => throw _privateConstructorUsedError;
+  String? get fcmToken => throw _privateConstructorUsedError;
   List<dynamic>? get watchList => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
   String? get storyId => throw _privateConstructorUsedError;
@@ -48,6 +49,7 @@ abstract class $StoryModelCopyWith<$Res> {
       String? description,
       String? profileAvatar,
       List<dynamic>? likes,
+      String? fcmToken,
       List<dynamic>? watchList,
       String? username,
       String? storyId});
@@ -69,6 +71,7 @@ class _$StoryModelCopyWithImpl<$Res> implements $StoryModelCopyWith<$Res> {
     Object? description = freezed,
     Object? profileAvatar = freezed,
     Object? likes = freezed,
+    Object? fcmToken = freezed,
     Object? watchList = freezed,
     Object? username = freezed,
     Object? storyId = freezed,
@@ -98,6 +101,10 @@ class _$StoryModelCopyWithImpl<$Res> implements $StoryModelCopyWith<$Res> {
           ? _value.likes
           : likes // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
+      fcmToken: fcmToken == freezed
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
+              as String?,
       watchList: watchList == freezed
           ? _value.watchList
           : watchList // ignore: cast_nullable_to_non_nullable
@@ -128,6 +135,7 @@ abstract class _$$_StoryModelCopyWith<$Res>
       String? description,
       String? profileAvatar,
       List<dynamic>? likes,
+      String? fcmToken,
       List<dynamic>? watchList,
       String? username,
       String? storyId});
@@ -151,6 +159,7 @@ class __$$_StoryModelCopyWithImpl<$Res> extends _$StoryModelCopyWithImpl<$Res>
     Object? description = freezed,
     Object? profileAvatar = freezed,
     Object? likes = freezed,
+    Object? fcmToken = freezed,
     Object? watchList = freezed,
     Object? username = freezed,
     Object? storyId = freezed,
@@ -180,6 +189,10 @@ class __$$_StoryModelCopyWithImpl<$Res> extends _$StoryModelCopyWithImpl<$Res>
           ? _value._likes
           : likes // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
+      fcmToken: fcmToken == freezed
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
+              as String?,
       watchList: watchList == freezed
           ? _value._watchList
           : watchList // ignore: cast_nullable_to_non_nullable
@@ -206,6 +219,7 @@ class _$_StoryModel implements _StoryModel {
       this.description,
       this.profileAvatar,
       final List<dynamic>? likes,
+      this.fcmToken,
       final List<dynamic>? watchList,
       this.username,
       this.storyId})
@@ -234,6 +248,8 @@ class _$_StoryModel implements _StoryModel {
     return EqualUnmodifiableListView(value);
   }
 
+  @override
+  final String? fcmToken;
   final List<dynamic>? _watchList;
   @override
   List<dynamic>? get watchList {
@@ -250,7 +266,7 @@ class _$_StoryModel implements _StoryModel {
 
   @override
   String toString() {
-    return 'StoryModel(storyImage: $storyImage, datePublished: $datePublished, userId: $userId, description: $description, profileAvatar: $profileAvatar, likes: $likes, watchList: $watchList, username: $username, storyId: $storyId)';
+    return 'StoryModel(storyImage: $storyImage, datePublished: $datePublished, userId: $userId, description: $description, profileAvatar: $profileAvatar, likes: $likes, fcmToken: $fcmToken, watchList: $watchList, username: $username, storyId: $storyId)';
   }
 
   @override
@@ -268,6 +284,7 @@ class _$_StoryModel implements _StoryModel {
             const DeepCollectionEquality()
                 .equals(other.profileAvatar, profileAvatar) &&
             const DeepCollectionEquality().equals(other._likes, _likes) &&
+            const DeepCollectionEquality().equals(other.fcmToken, fcmToken) &&
             const DeepCollectionEquality()
                 .equals(other._watchList, _watchList) &&
             const DeepCollectionEquality().equals(other.username, username) &&
@@ -284,6 +301,7 @@ class _$_StoryModel implements _StoryModel {
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(profileAvatar),
       const DeepCollectionEquality().hash(_likes),
+      const DeepCollectionEquality().hash(fcmToken),
       const DeepCollectionEquality().hash(_watchList),
       const DeepCollectionEquality().hash(username),
       const DeepCollectionEquality().hash(storyId));
@@ -309,6 +327,7 @@ abstract class _StoryModel implements StoryModel {
       final String? description,
       final String? profileAvatar,
       final List<dynamic>? likes,
+      final String? fcmToken,
       final List<dynamic>? watchList,
       final String? username,
       final String? storyId}) = _$_StoryModel;
@@ -328,6 +347,8 @@ abstract class _StoryModel implements StoryModel {
   String? get profileAvatar;
   @override
   List<dynamic>? get likes;
+  @override
+  String? get fcmToken;
   @override
   List<dynamic>? get watchList;
   @override

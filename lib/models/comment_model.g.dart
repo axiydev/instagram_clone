@@ -13,6 +13,7 @@ _$_CommentModel _$$_CommentModelFromJson(Map<String, dynamic> json) =>
       uid: json['uid'] as String?,
       text: json['text'] as String?,
       commentId: json['commentId'] as String?,
+      fcmToken: json['fcmToken'] as String?,
       username: json['username'] as String?,
     );
 
@@ -23,5 +24,6 @@ Map<String, dynamic> _$$_CommentModelToJson(_$_CommentModel instance) =>
       'uid': instance.uid,
       'text': instance.text,
       'commentId': instance.commentId,
+      'fcmToken': instance.fcmToken,
       'username': instance.username,
     };

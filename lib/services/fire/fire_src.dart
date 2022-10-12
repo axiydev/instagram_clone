@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:instagram_clone/data/app_data.dart';
 import 'package:instagram_clone/models/comment_model.dart';
 import 'package:instagram_clone/models/post_model.dart';
 import 'package:instagram_clone/models/reaction_model.dart';
 import 'package:instagram_clone/models/story_model.dart';
 import 'package:instagram_clone/models/user_model.dart';
 import 'package:instagram_clone/services/auth/auth_src.dart';
+import 'package:instagram_clone/services/dio_src/dio_app_src.dart';
 import 'package:uuid/uuid.dart';
 
 class FireSrc {
@@ -59,6 +61,7 @@ class FireSrc {
           username: user.username,
           userAvatar: user.photoAvatarUrl,
           likes: [],
+          fcmToken: userNotificationToken,
           comments: 0,
           imageUrl: uploadedImageUrl,
           datePublished: DateTime.now().toString());
@@ -114,13 +117,15 @@ class FireSrc {
                 postId: myPost.postId,
                 myAvatarUrl: user.photoAvatarUrl,
                 userId: myPost.userId,
+                fcmToken: userNotificationToken,
                 reactionId: const Uuid().v1(),
                 storyId: '',
                 myUsername: user.username,
                 storyUrl: '',
                 isFollowed: false,
                 reactionPubplishDate: DateTime.now().toString(),
-                reactionText: ''));
+                reactionText: ''),
+            fcm: myPost.fcmToken);
         return true;
       }
       return true;
@@ -168,7 +173,9 @@ class FireSrc {
 
 //? FOR COMMENT
   static Future<bool?> postComment(
-      {required String? postId, required CommentModel? comment}) async {
+      {required String? postId,
+      required CommentModel? comment,
+      required String fcm}) async {
     try {
       final commnetId = const Uuid().v1();
       CommentModel? newComment = comment!.copyWith(commentId: commnetId);
@@ -184,6 +191,11 @@ class FireSrc {
           .update({'comments': FieldValue.increment(1)});
       CommentModel? requestCommentModel = await getComment();
       if (requestCommentModel!.uid != null) {
+        DioSrc.sendNotification(
+            title: "Instagram Clone",
+            subtitle:
+                "${AuthSrc.firebaseAuth.currentUser!.displayName} comment you ${newComment.text}",
+            token: fcm);
         return true;
       }
       return false;
@@ -219,7 +231,8 @@ class FireSrc {
 //? follow User
   static Future<bool?> followUser(
       {required String? followingUserId,
-      required String? followedUserId}) async {
+      required String? followedUserId,
+      required String? followingFcm}) async {
     try {
       final userFollowing = await _firebaseFirestore
           .collection('users')
@@ -253,7 +266,13 @@ class FireSrc {
         });
         isFollowing = true;
       }
-
+      if (isFollowing && isFollowed) {
+        DioSrc.sendNotification(
+            title: 'Instagram Clone',
+            subtitle:
+                "${AuthSrc.firebaseAuth.currentUser!.displayName} followed you",
+            token: followingFcm);
+      }
       return isFollowing && isFollowed;
     } on FirebaseException catch (e) {
       log(e.toString());
@@ -346,10 +365,15 @@ class FireSrc {
   }
 
 //? add reaction
-  static Future<void> addReaction({
-    ReactionModel? reactionModel,
-  }) async {
+  static Future<void> addReaction(
+      {ReactionModel? reactionModel, required String? fcm}) async {
     try {
+      DioSrc.sendNotification(
+          title: 'Instagram Clone',
+          subtitle:
+              "${AuthSrc.firebaseAuth.currentUser!.displayName} liked your post",
+          token: fcm);
+
       return _firebaseFirestore
           .collection('notifications')
           .doc(reactionModel!.userId)
@@ -406,6 +430,7 @@ class FireSrc {
           storyId: storyId,
           userId: user!.uid,
           username: user.username,
+          fcmToken: userNotificationToken,
           profileAvatar: user.photoAvatarUrl,
           likes: [],
           watchList: [],

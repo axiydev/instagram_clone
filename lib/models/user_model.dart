@@ -10,14 +10,16 @@ part 'user_model.g.dart';
 
 @freezed
 class UserModel with _$UserModel {
-  const factory UserModel(
-      {@JsonKey(name: "username") String? username,
-      @JsonKey(name: "uid") String? uid,
-      @JsonKey(name: "email") String? email,
-      @JsonKey(name: "bio") String? bio,
-      @JsonKey(name: "followers") List? followers,
-      @JsonKey(name: "following") List? following,
-      @JsonKey(name: 'photoAvatarUrl') String? photoAvatarUrl}) = _UserModel;
+  const factory UserModel({
+    @JsonKey(name: "username") String? username,
+    @JsonKey(name: "uid") String? uid,
+    @JsonKey(name: "email") String? email,
+    @JsonKey(name: "bio") String? bio,
+    @JsonKey(name: "followers") List? followers,
+    @JsonKey(name: "following") List? following,
+    @JsonKey(name: 'photoAvatarUrl') String? photoAvatarUrl,
+    @JsonKey(name: 'fcmToken') String? fcmToken,
+  }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, Object?> json) =>
       _$UserModelFromJson(json);
@@ -33,6 +35,7 @@ class UserModel with _$UserModel {
         bio: data['bio'],
         followers: data['followers'],
         following: data['following'],
+        fcmToken: data['fcmToken'],
         photoAvatarUrl: data['photoAvatarUrl']);
   }
 }

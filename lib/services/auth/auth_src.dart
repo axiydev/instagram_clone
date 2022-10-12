@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:instagram_clone/data/app_data.dart';
 import 'package:instagram_clone/models/user_model.dart';
 
 class AuthSrc {
@@ -41,6 +42,7 @@ class AuthSrc {
           username: username,
           uid: userCredential.user!.uid,
           email: email,
+          fcmToken: userNotificationToken,
           bio: bio,
           followers: <String>[],
           following: <String>[],

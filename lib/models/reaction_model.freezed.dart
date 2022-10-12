@@ -32,6 +32,8 @@ mixin _$ReactionModel {
   String? get myUid => throw _privateConstructorUsedError;
   @JsonKey(name: 'userId')
   String? get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'fcmToken')
+  String? get fcmToken => throw _privateConstructorUsedError;
   @JsonKey(name: 'myAvatarUrl')
   String? get myAvatarUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'reactionPubplishDate')
@@ -63,6 +65,7 @@ abstract class $ReactionModelCopyWith<$Res> {
       @JsonKey(name: 'reactionId') String? reactionId,
       @JsonKey(name: 'myUid') String? myUid,
       @JsonKey(name: 'userId') String? userId,
+      @JsonKey(name: 'fcmToken') String? fcmToken,
       @JsonKey(name: 'myAvatarUrl') String? myAvatarUrl,
       @JsonKey(name: 'reactionPubplishDate') String? reactionPubplishDate,
       @JsonKey(name: 'reactionText') String? reactionText,
@@ -88,6 +91,7 @@ class _$ReactionModelCopyWithImpl<$Res>
     Object? reactionId = freezed,
     Object? myUid = freezed,
     Object? userId = freezed,
+    Object? fcmToken = freezed,
     Object? myAvatarUrl = freezed,
     Object? reactionPubplishDate = freezed,
     Object? reactionText = freezed,
@@ -119,6 +123,10 @@ class _$ReactionModelCopyWithImpl<$Res>
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fcmToken: fcmToken == freezed
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
               as String?,
       myAvatarUrl: myAvatarUrl == freezed
           ? _value.myAvatarUrl
@@ -162,6 +170,7 @@ abstract class _$$_ReactionModelCopyWith<$Res>
       @JsonKey(name: 'reactionId') String? reactionId,
       @JsonKey(name: 'myUid') String? myUid,
       @JsonKey(name: 'userId') String? userId,
+      @JsonKey(name: 'fcmToken') String? fcmToken,
       @JsonKey(name: 'myAvatarUrl') String? myAvatarUrl,
       @JsonKey(name: 'reactionPubplishDate') String? reactionPubplishDate,
       @JsonKey(name: 'reactionText') String? reactionText,
@@ -189,6 +198,7 @@ class __$$_ReactionModelCopyWithImpl<$Res>
     Object? reactionId = freezed,
     Object? myUid = freezed,
     Object? userId = freezed,
+    Object? fcmToken = freezed,
     Object? myAvatarUrl = freezed,
     Object? reactionPubplishDate = freezed,
     Object? reactionText = freezed,
@@ -220,6 +230,10 @@ class __$$_ReactionModelCopyWithImpl<$Res>
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fcmToken: fcmToken == freezed
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
               as String?,
       myAvatarUrl: myAvatarUrl == freezed
           ? _value.myAvatarUrl
@@ -259,6 +273,7 @@ class _$_ReactionModel implements _ReactionModel {
       @JsonKey(name: 'reactionId') this.reactionId,
       @JsonKey(name: 'myUid') this.myUid,
       @JsonKey(name: 'userId') this.userId,
+      @JsonKey(name: 'fcmToken') this.fcmToken,
       @JsonKey(name: 'myAvatarUrl') this.myAvatarUrl,
       @JsonKey(name: 'reactionPubplishDate') this.reactionPubplishDate,
       @JsonKey(name: 'reactionText') this.reactionText,
@@ -288,6 +303,9 @@ class _$_ReactionModel implements _ReactionModel {
   @JsonKey(name: 'userId')
   final String? userId;
   @override
+  @JsonKey(name: 'fcmToken')
+  final String? fcmToken;
+  @override
   @JsonKey(name: 'myAvatarUrl')
   final String? myAvatarUrl;
   @override
@@ -308,7 +326,7 @@ class _$_ReactionModel implements _ReactionModel {
 
   @override
   String toString() {
-    return 'ReactionModel(imageUrl: $imageUrl, myUsername: $myUsername, postId: $postId, reactionId: $reactionId, myUid: $myUid, userId: $userId, myAvatarUrl: $myAvatarUrl, reactionPubplishDate: $reactionPubplishDate, reactionText: $reactionText, isFollowed: $isFollowed, storyUrl: $storyUrl, storyId: $storyId)';
+    return 'ReactionModel(imageUrl: $imageUrl, myUsername: $myUsername, postId: $postId, reactionId: $reactionId, myUid: $myUid, userId: $userId, fcmToken: $fcmToken, myAvatarUrl: $myAvatarUrl, reactionPubplishDate: $reactionPubplishDate, reactionText: $reactionText, isFollowed: $isFollowed, storyUrl: $storyUrl, storyId: $storyId)';
   }
 
   @override
@@ -324,6 +342,7 @@ class _$_ReactionModel implements _ReactionModel {
                 .equals(other.reactionId, reactionId) &&
             const DeepCollectionEquality().equals(other.myUid, myUid) &&
             const DeepCollectionEquality().equals(other.userId, userId) &&
+            const DeepCollectionEquality().equals(other.fcmToken, fcmToken) &&
             const DeepCollectionEquality()
                 .equals(other.myAvatarUrl, myAvatarUrl) &&
             const DeepCollectionEquality()
@@ -346,6 +365,7 @@ class _$_ReactionModel implements _ReactionModel {
       const DeepCollectionEquality().hash(reactionId),
       const DeepCollectionEquality().hash(myUid),
       const DeepCollectionEquality().hash(userId),
+      const DeepCollectionEquality().hash(fcmToken),
       const DeepCollectionEquality().hash(myAvatarUrl),
       const DeepCollectionEquality().hash(reactionPubplishDate),
       const DeepCollectionEquality().hash(reactionText),
@@ -374,6 +394,7 @@ abstract class _ReactionModel implements ReactionModel {
       @JsonKey(name: 'reactionId') final String? reactionId,
       @JsonKey(name: 'myUid') final String? myUid,
       @JsonKey(name: 'userId') final String? userId,
+      @JsonKey(name: 'fcmToken') final String? fcmToken,
       @JsonKey(name: 'myAvatarUrl') final String? myAvatarUrl,
       @JsonKey(name: 'reactionPubplishDate') final String? reactionPubplishDate,
       @JsonKey(name: 'reactionText') final String? reactionText,
@@ -402,6 +423,9 @@ abstract class _ReactionModel implements ReactionModel {
   @override
   @JsonKey(name: 'userId')
   String? get userId;
+  @override
+  @JsonKey(name: 'fcmToken')
+  String? get fcmToken;
   @override
   @JsonKey(name: 'myAvatarUrl')
   String? get myAvatarUrl;

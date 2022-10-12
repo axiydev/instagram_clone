@@ -14,6 +14,7 @@ class PostModel with _$PostModel {
     int? comments,
     String? imageUrl,
     String? postId,
+    String? fcmToken,
     String? userId,
   }) = _PostModel;
 
@@ -33,6 +34,7 @@ class PostModel with _$PostModel {
         comments: data['comments'],
         imageUrl: data['imageUrl'],
         postId: data['postId'],
+        fcmToken: data['fcmToken'],
         userId: data['userId']);
   }
 }

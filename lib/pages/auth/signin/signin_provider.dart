@@ -49,7 +49,5 @@ class SignInProvider extends SignInProviderRepository with ChangeNotifier {
   }
 
   @override
-  void onInit() {
-    // TODO: implement onInit
-  }
+  void onInit() {}
 }
