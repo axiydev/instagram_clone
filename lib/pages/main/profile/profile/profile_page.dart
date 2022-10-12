@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 class ProfilePage extends StatefulWidget {
   static Widget get view => ChangeNotifierProvider(
         create: (_) => ProfileProvider(),
+        lazy: false,
         child: const ProfilePage(),
       );
   const ProfilePage({super.key});

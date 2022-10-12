@@ -14,6 +14,7 @@ class ReactionPage extends StatefulWidget {
   const ReactionPage({super.key});
   static Widget get view => ChangeNotifierProvider(
         create: (_) => ReactionProvider(),
+        lazy: false,
         child: const ReactionPage(),
       );
   @override

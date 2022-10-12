@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:instagram_clone/data/app_data.dart';
 import 'package:instagram_clone/models/user_model.dart';
 import 'package:instagram_clone/services/auth/auth_src.dart';
 import 'package:instagram_clone/utils/app_utils_export.dart';
@@ -38,6 +39,7 @@ class MainProvider with ChangeNotifier {
   void getUserAvatar() async {
     try {
       _user = await AuthSrc.getCurrentUser;
+      usernameApp = _user!.username ?? "unknown";
       _imageUrl = _user!.photoAvatarUrl;
       notifyListeners();
     } catch (e) {

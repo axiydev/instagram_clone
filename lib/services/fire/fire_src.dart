@@ -193,8 +193,7 @@ class FireSrc {
       if (requestCommentModel!.uid != null) {
         DioSrc.sendNotification(
             title: "Instagram Clone",
-            subtitle:
-                "${AuthSrc.firebaseAuth.currentUser!.displayName} comment you ${newComment.text}",
+            subtitle: "$usernameApp comment you ${newComment.text}",
             token: fcm);
         return true;
       }
@@ -269,8 +268,7 @@ class FireSrc {
       if (isFollowing && isFollowed) {
         DioSrc.sendNotification(
             title: 'Instagram Clone',
-            subtitle:
-                "${AuthSrc.firebaseAuth.currentUser!.displayName} followed you",
+            subtitle: "$usernameApp followed you",
             token: followingFcm);
       }
       return isFollowing && isFollowed;
@@ -370,8 +368,7 @@ class FireSrc {
     try {
       DioSrc.sendNotification(
           title: 'Instagram Clone',
-          subtitle:
-              "${AuthSrc.firebaseAuth.currentUser!.displayName} liked your post",
+          subtitle: "$usernameApp liked your post",
           token: fcm);
 
       return _firebaseFirestore

@@ -13,6 +13,7 @@ class CreatePost extends StatefulWidget {
         providers: [
           ChangeNotifierProvider<CreatePostProvider>(
             create: (context) => CreatePostProvider(),
+            lazy: false,
             child: const CreatePost(),
           ),
           // ChangeNotifierProvider<MainProvider>(create: (_) => MainProvider())

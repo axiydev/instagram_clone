@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 class SearchView extends StatefulWidget {
   static Widget get show => ChangeNotifierProvider(
         create: (_) => SearchViewProvider(),
+        lazy: false,
         child: const SearchView(),
       );
   const SearchView({super.key});

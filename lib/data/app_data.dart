@@ -13,3 +13,4 @@ final List pageList = [
 ];
 
 String? userNotificationToken = '';
+String? usernameApp = '';
