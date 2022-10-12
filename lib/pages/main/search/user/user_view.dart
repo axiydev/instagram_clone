@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:instagram_clone/data/app_data.dart';
 import 'package:instagram_clone/models/post_model.dart';
 import 'package:instagram_clone/models/user_model.dart';
 import 'package:instagram_clone/pages/main/main_provider.dart';
@@ -384,6 +385,7 @@ class _UserPageViewState extends State<UserPageView> {
                                         ),
                                         onPressed: () async {
                                           userValue.follow(
+                                              userName: usernameApp,
                                               followingUserId: userId,
                                               followingFcm: fcm);
                                         },

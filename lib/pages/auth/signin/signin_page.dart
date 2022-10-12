@@ -150,11 +150,12 @@ class _SignInPageState extends State<SignInPage> {
           ),
         )),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          AppUtils.themeChanger();
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     AppUtils.themeChanger();
+      //   },
+      // ),
+
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             border: Border(

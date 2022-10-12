@@ -24,12 +24,12 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   @override
-  void didChangeDependencies() {
+  void initState() {
     context.read<MainProvider>().getUserAvatar();
     if (kDebugMode) {
       print("did Change Dep");
     }
-    super.didChangeDependencies();
+    super.initState();
   }
 
   @override

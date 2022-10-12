@@ -20,13 +20,14 @@ class PostItem extends StatefulWidget {
   final bool? liked;
   final String? currentUser;
   final Function removeLike;
-
+  final String? currentUserUsername;
   const PostItem(
       {super.key,
       required this.currentUser,
       required this.fullCommentLength,
       required this.post,
       required this.liked,
+      required this.currentUserUsername,
       required this.addLike,
       required this.removeLike});
 
@@ -36,15 +37,18 @@ class PostItem extends StatefulWidget {
     required int? fullCommentLength,
     required bool? liked,
     required Function? removeLike,
+    required String? currentUserUsername,
     required String? currentUser,
   }) {
     return ChangeNotifierProvider(
       create: (_) => PostItemProvider(),
+      lazy: true,
       child: PostItem(
           currentUser: currentUser,
           fullCommentLength: fullCommentLength,
           post: post,
           liked: liked,
+          currentUserUsername: currentUserUsername,
           addLike: addLike!,
           removeLike: removeLike!),
     );
@@ -159,6 +163,7 @@ class _PostItemState extends State<PostItem> {
                             child: CupertinoButton(
                               onPressed: () => postItemProvider.follow(
                                   followingUserId: widget.post!.userId,
+                                  userName: widget.currentUserUsername,
                                   fcm: widget.post!.fcmToken),
                               padding: EdgeInsets.zero,
                               color: const Color(0xFF3797EF),

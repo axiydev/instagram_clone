@@ -111,9 +111,10 @@ class FireSrc {
 
         final UserModel? user = await AuthSrc.getCurrentUser;
         await addReaction(
+            userName: user!.username,
             reactionModel: ReactionModel(
                 imageUrl: myPost.imageUrl,
-                myUid: user!.uid,
+                myUid: user.uid,
                 postId: myPost.postId,
                 myAvatarUrl: user.photoAvatarUrl,
                 userId: myPost.userId,
@@ -175,6 +176,7 @@ class FireSrc {
   static Future<bool?> postComment(
       {required String? postId,
       required CommentModel? comment,
+      required String? userName,
       required String fcm}) async {
     try {
       final commnetId = const Uuid().v1();
@@ -193,7 +195,7 @@ class FireSrc {
       if (requestCommentModel!.uid != null) {
         DioSrc.sendNotification(
             title: "Instagram Clone",
-            subtitle: "$usernameApp comment you ${newComment.text}",
+            subtitle: "$userName comment you ${newComment.text}",
             token: fcm);
         return true;
       }
@@ -231,6 +233,7 @@ class FireSrc {
   static Future<bool?> followUser(
       {required String? followingUserId,
       required String? followedUserId,
+      required String? userName,
       required String? followingFcm}) async {
     try {
       final userFollowing = await _firebaseFirestore
@@ -268,7 +271,7 @@ class FireSrc {
       if (isFollowing && isFollowed) {
         DioSrc.sendNotification(
             title: 'Instagram Clone',
-            subtitle: "$usernameApp followed you",
+            subtitle: "$userName followed you",
             token: followingFcm);
       }
       return isFollowing && isFollowed;
@@ -364,11 +367,13 @@ class FireSrc {
 
 //? add reaction
   static Future<void> addReaction(
-      {ReactionModel? reactionModel, required String? fcm}) async {
+      {ReactionModel? reactionModel,
+      required String? userName,
+      required String? fcm}) async {
     try {
       DioSrc.sendNotification(
           title: 'Instagram Clone',
-          subtitle: "$usernameApp liked your post",
+          subtitle: "$userName liked your post",
           token: fcm);
 
       return _firebaseFirestore

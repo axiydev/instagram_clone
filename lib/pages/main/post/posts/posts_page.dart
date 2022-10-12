@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutterfire_ui/firestore.dart';
+import 'package:instagram_clone/data/app_data.dart';
 import 'package:instagram_clone/models/post_model.dart';
 import 'package:instagram_clone/pages/main/main_provider.dart';
 import 'package:instagram_clone/pages/main/post/posts/posts_provider.dart';
@@ -103,6 +104,7 @@ class _PostsPageState extends State<PostsPage> {
 
                     return PostItem.show(
                       post: post,
+                      currentUserUsername: usernameApp,
                       currentUser: AuthSrc.firebaseAuth.currentUser!.uid,
                       fullCommentLength: post.comments!,
                       addLike: () => valuePosts.addLike(post: post),

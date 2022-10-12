@@ -10,13 +10,14 @@ class CommentProvider with ChangeNotifier {
   void addPost(
       {required String? postId,
       required CommentModel? myComment,
-      required String fcm}) async {
+      required String fcm,
+      required String? userName}) async {
     try {
       if (editingController!.text.isEmpty) return;
       CommentModel newCommentMod =
           myComment!.copyWith(text: editingController!.text);
       final isPublished = await FireSrc.postComment(
-          postId: postId, comment: newCommentMod, fcm: fcm);
+          postId: postId, comment: newCommentMod, fcm: fcm, userName: userName);
       if (isPublished!) {
         editingController!.clear();
         log('published');

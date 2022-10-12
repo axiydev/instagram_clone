@@ -148,6 +148,7 @@ class _CommentPageState extends State<CommentPage> {
                       commentProviderValue.addPost(
                           postId: _post!.postId,
                           myComment: myComment,
+                          userName: _userModel!.username,
                           fcm: _post!.fcmToken!);
                       FocusScope.of(context).unfocus();
                     },

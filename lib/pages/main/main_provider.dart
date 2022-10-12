@@ -39,7 +39,7 @@ class MainProvider with ChangeNotifier {
   void getUserAvatar() async {
     try {
       _user = await AuthSrc.getCurrentUser;
-      usernameApp = _user!.username ?? "unknown";
+      usernameApp = (await AuthSrc.getCurrentUser)!.username!;
       _imageUrl = _user!.photoAvatarUrl;
       notifyListeners();
     } catch (e) {

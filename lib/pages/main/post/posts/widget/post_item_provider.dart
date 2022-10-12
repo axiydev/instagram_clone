@@ -33,10 +33,14 @@ class PostItemProvider with ChangeNotifier {
     }
   }
 
-  void follow({required String? followingUserId, required String? fcm}) async {
+  void follow(
+      {required String? followingUserId,
+      required String? fcm,
+      required String? userName}) async {
     try {
       bool? followed = await FireSrc.followUser(
           followingUserId: followingUserId,
+          userName: userName,
           followedUserId: AuthSrc.firebaseAuth.currentUser!.uid,
           followingFcm: fcm);
       if (followed!) {

@@ -162,11 +162,12 @@ class _SignUpPageState extends State<SignUpPage> {
         )),
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          AppUtils.themeChanger();
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     AppUtils.themeChanger();
+      //   },
+      // ),
+
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             border: Border(
