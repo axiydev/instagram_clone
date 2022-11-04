@@ -19,8 +19,9 @@ class StoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.transparent,
+      color: Theme.of(context).backgroundColor,
       margin: EdgeInsets.only(left: 15.w),
+      elevation: .0,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

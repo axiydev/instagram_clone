@@ -37,7 +37,7 @@ class _StoryViewState extends State<StoryView> {
             child:
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               StoryWidget(
-                  title: 'Sreate Story',
+                  title: 'Create Story',
                   isAddWidget: true,
                   onPressed: () {
                     storyValue.navigateToStory(context);

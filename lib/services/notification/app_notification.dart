@@ -43,7 +43,7 @@ class AppNotificationsInsta {
   Future<void> get forLocalNotification async {
     try {
       const androidSettings =
-          AndroidInitializationSettings('@mipmap/ic_launcher');
+          AndroidInitializationSettings('@mipmap/ic_launcher_round');
       const initializationSetting =
           InitializationSettings(android: androidSettings);
       _flutterLocalNotificationsPlugin.initialize(
